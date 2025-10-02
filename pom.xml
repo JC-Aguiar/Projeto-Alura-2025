@@ -62,6 +62,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
         <!-- JSP-->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
@@ -95,8 +101,8 @@
 
 	<build>
 		<resources>
-			<!-- Filter to collect variables during compilation -->
 			<resource>
+				<!-- Filter to collect variables during compilation -->
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 				<includes>
@@ -106,8 +112,8 @@
 			</resource>
 		</resources>
 		<plugins>
-			<!-- Filter to injecting variables during compilation -->
 			<plugin>
+				<!-- Filter to injecting variables during compilation -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.7</version>
@@ -118,10 +124,31 @@
 					<useDefaultDelimiters>false</useDefaultDelimiters>
 				</configuration>
 			</plugin>
-			<!-- Spring default builder -->
 			<plugin>
+				<!-- Maven compiler -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- Spring default builder -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
