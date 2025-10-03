@@ -1,10 +1,10 @@
-package br.com.alura.projeto.course;
+package br.com.alura.projeto.course.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
-public class NewCourseForm {
+public class NewCourseFormDTO {
 
     @NotBlank
     private String name;
@@ -19,7 +19,7 @@ public class NewCourseForm {
     @Email
     private String instructorEmail;
 
-    public NewCourseForm() {}
+    public NewCourseFormDTO() {}
 
     public String getName() {
         return name;
