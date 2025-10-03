@@ -31,9 +31,6 @@ public class Course {
 
     private OffsetDateTime inactivationDate;
 
-    @Deprecated
-    public Course() {}
-
     public Optional<String> getDescription() {
         return Optional.ofNullable(description);
     }
