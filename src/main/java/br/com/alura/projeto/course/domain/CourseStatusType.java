@@ -12,7 +12,7 @@ public enum CourseStatusType {
     @JsonCreator
     public static CourseStatusType fromValue(String value) {
         return identify(value).orElseThrow(
-            () -> new IllegalArgumentException("Unknown status: " + value)
+            () -> new IllegalArgumentException("Invalid Course status type: " + value)
         );
     }
 
