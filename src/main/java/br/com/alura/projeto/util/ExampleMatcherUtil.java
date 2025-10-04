@@ -9,6 +9,7 @@ public class ExampleMatcherUtil {
     public final static ExampleMatcher MATCHER_ALL = ExampleMatcher
         .matchingAll()
         .withIgnoreNullValues()
+        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
         .withIgnoreCase();
 
     /// Create a flexible example-matcher. This means that at last one field must match
@@ -16,6 +17,7 @@ public class ExampleMatcherUtil {
     public final static ExampleMatcher MATCHER_ANY = ExampleMatcher
         .matchingAny()
         .withIgnoreNullValues()
+        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
         .withIgnoreCase();
 
     /// Fabric method in order to create custom example-matchers base on the existing ones
