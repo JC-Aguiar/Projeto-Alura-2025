@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
-public class TestSearchCourseFormDTO {
+public class TestSearchCourseDTO {
 
     @Test
     public void validateCourseCodePattern__mustSucceedAllOptions() {
