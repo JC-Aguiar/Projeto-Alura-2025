@@ -26,7 +26,20 @@ public class CourseService {
         return courseRepository.findById(id);
     }
 
-    public Course save(Course course) {
+    public Course create(Course course) {
+        var code = course.getCode();
+        var isCourseCodeDuplicated = courseRepository.existsByCode(code);
+        if (isCourseCodeDuplicated) throw new IllegalArgumentException(
+            "Code '%s' already exists in the system database. Please set a new unique code.".formatted(code)
+        );
+        return save(course);
+    }
+
+    public Course update(Course course) {
+        return save(course);
+    }
+
+    private Course save(Course course) {
         if (course == null) throw new IllegalArgumentException(
             "Invalid operation: couldn't save a Course record because we receive a null register"
         );
