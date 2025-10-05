@@ -1,0 +1,22 @@
+:root {
+    --banner-height: 68px;
+    --banner-marging: 16px;
+}
+
+.banner {
+    height: var(--banner-height) !important;
+    max-height: var(--banner-height) !important;
+}
+
+@media (max-width: 768px) {
+    .content-container {
+        height: calc(100vh - var(--banner-height) - var(--banner-marging));
+        overflow-y: auto;
+        overflow-x: hidden;
+        box-sizing: border-box;
+        margin: 0;
+        margin-top: calc(var(--banner-height) + var(--banner-marging));
+        padding: 0;
+        padding-bottom: 64px;
+    }
+}
