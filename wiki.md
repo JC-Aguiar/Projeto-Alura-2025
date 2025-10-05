@@ -34,7 +34,7 @@ I'm assuming its acceptable to add two or three more liberais to the application
 - [X] Create couse entity
 - [X] Implement basic service and repository layers for course domain
 - [X] Creating course table and then apply each column restriction on every DTO
-- [ ] Create new JSPs to list all courses and to crate/edit new ones
+- [X] Create new JSPs to list all courses and to crate/edit new ones
 - [ ] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
 to list all course (JSP)
 - [ ] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 

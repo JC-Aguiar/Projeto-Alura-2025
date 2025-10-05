@@ -1,16 +1,19 @@
 package br.com.alura.projeto.course.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Data
-@Builder
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Course {
 
     @Id
