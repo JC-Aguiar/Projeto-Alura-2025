@@ -1,0 +1,213 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+
+/* Font: Inter (default) */
+@font-face {
+  font-family: 'Inter Variable';
+  src: url('../font/inter/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations');
+  font-weight: 100 900; /* A fonte cobre todos os pesos, de Thin (100) a Black (900) */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font: Inter (italic) */
+@font-face {
+  font-family: 'Inter Variable';
+  src: url('../font/inter/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+    --color-bg-primary: rgb(13, 26, 58);                /* Obtained in login.css */
+    --color-bg-secondary: rgb(0, 20, 40);               /* Obtained in login.css */
+    --color-figma-bg-dark: rgb(5, 25, 51);              /* Obtained in figma's background */
+    --color-figma-btn-light: rgba(163, 255, 191, 1);    /* Obtained in figma 'btn' */
+    --color-figma-frame-dark: rgba(9, 51, 102, 0.4);    /* Obtained in figma 'Frame 901' */
+    --color-figma-bg-light: rgb(22, 123, 247);          /* Obtained in figma 'luz-topo' */
+    --color-figma-bg-purple: rgb(142, 45, 226);         /* Obtained in figma 'luz-roxa' */
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-figma-bg-light) var(--color-figma-bg-dark);
+}
+
+body {
+    /* 
+    Figma Values: 
+        screen width: 1,440px
+        screen height: 843px
+    */
+    margin: 0;
+    font-family: 'Inter', 'Arial', sans-serif !important;
+    background: linear-gradient(135deg, var(--color-figma-bg-dark)) !important;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    /* padding: 2rem; */
+}
+
+.bg-dark {
+    background-color: var(--color-figma-bg-dark);
+}
+
+.light-sphere {
+    /*
+    Figma Values: 
+        width: 895.3836122475095;
+        height: 578.7187540657633;
+    */
+    width: 80vmin;
+    height: 80vmin;
+    position: fixed;
+    pointer-events: none;
+    z-index: -100;
+    filter: blur(50px);
+}
+
+.purple-light {
+    /*
+    Figma Values: 
+        top: 508px;
+        left: -595px;
+    */
+    top: 60.26vh;
+    left: -41.32vw;
+    opacity: 0.43;
+    transform: scale(1.547, 1) rotate(-29deg);
+    background-image: radial-gradient(
+        circle,
+        var(--color-figma-bg-purple) 0%,
+        transparent 100%
+    );
+}
+
+.top-lgiht {
+    /*
+    Figma Values: 
+        top: -137px;
+        left: 872px;
+    */
+    top: 5vh;
+    left: 60vw;
+    transform: scale(1.547, 1) rotate(-29deg);
+    opacity: 0.30;
+    background-image: radial-gradient(
+        circle,
+        var(--color-figma-bg-light) 0%,
+        transparent 100%
+    );
+}
+
+.light-sphere.inside {
+    width: 150%;
+    height: 150%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    opacity: 1;
+    transform: translate(-50%, 0%) scale(1.547, 1) rotate(-29deg);
+}
+
+.highlight {
+    /* 
+    Figma values:
+        width: 500;
+        height: 250;
+        top: 63px;
+        left: 123px;
+        angle: 0 deg;
+        opacity: 1;
+        border-radius: 5px;
+        border-width: 0.5px;
+    */
+    border-radius: 5px;
+    border-width: 0.5px;
+    padding: 16px 8px 16px 8px;
+    color: white;
+    position: relative;
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    background: var(--color-figma-frame-dark) !important;
+}
+
+.highlight-body {
+    display: grid;
+    padding: 16px 8px 16px 8px;
+    gap: 8px;
+}
+
+.highlight button {
+    border: none;
+    width: 100%;
+    height: 100%;
+    font-weight: 900;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 1.42px;
+    text-transform: uppercase;
+    color: var(--color-figma-bg-dark);
+    background-color: var(--color-figma-btn-light);
+}
+
+.frame {
+    border: 0.5px solid var(--color-figma-bg-light) !important;
+}
+
+.px-center {
+    padding-left: 25%;
+    padding-right: 25%;
+}
+
+.table-transparent thead,
+.table-transparent * td,
+.table-transparent * th  {
+    color: white !important;   
+    background-color: transparent !important;
+    border-color: var(--color-figma-bg-light) !important;
+    border: 0 0 0.5px 0;
+}
+
+@media (max-width: 768px) {
+    .light-sphere {
+        width: 60vmin;
+        height: 60vmin;
+        filter: blur(40px);
+    }
+
+    .top-light {
+        top: 0;
+        left: 40vw;
+    }
+
+    .top-light {
+        top: 25vh;
+        left: 50vw;
+    }
+    
+    .px-center {
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+}
+
+@media (max-width: 375px) {
+    .light-sphere {
+        width: 90vmin;
+        height: 90vmin;
+        filter: blur(30px);
+    }
+
+    .purple-light {
+        top: 80vh;
+    }
+
+    .px-center {
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+}
