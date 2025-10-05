@@ -43,7 +43,7 @@
                         class="rounded rounded-pill py-0 py-sm-2" 
                         href="/admin/course/new"
                     >
-                        CADASTRAR NOVA 
+                        CADASTRAR NOVO
                     </button>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                     class="rounded rounded-pill py-2 px-5" 
                     href="/admin/category/new"
                 >
-                    CADASTRAR NOVA 
+                    CADASTRAR NOVO
                 </button>
             </div>
         </div>
