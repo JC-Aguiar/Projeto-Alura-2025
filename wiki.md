@@ -35,9 +35,9 @@ I'm assuming its acceptable to add two or three more liberais to the application
 - [X] Implement basic service and repository layers for course domain
 - [X] Creating course table and then apply each column restriction on every DTO
 - [X] Create new JSPs to list all courses and to crate/edit new ones
-- [ ] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
+- [X] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
 to list all course (JSP)
-- [ ] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
+- [X] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
 to create a new course (JSP)
 - [ ] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
 to edit a course (JSP)

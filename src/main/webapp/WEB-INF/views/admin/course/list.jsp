@@ -5,9 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lista de Cursos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Lista de Cursos</title>
+    
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/list-courses.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
@@ -41,7 +43,7 @@
                 <div class="col d-flex align-items-center px-5 px-sm-2 mt-1 mt-sm-0">
                     <button type="button" 
                         class="rounded rounded-pill py-0 py-sm-2" 
-                        href="/admin/course/new"
+                        onclick="window.location.href='/admin/course/new'"
                     >
                         CADASTRAR NOVO
                     </button>
@@ -64,7 +66,7 @@
                 </div>
                 <button type="button" 
                     class="rounded rounded-pill py-2 px-5" 
-                    href="/admin/category/new"
+                    onclick="window.location.href='/admin/course/new'"
                 >
                     CADASTRAR NOVO
                 </button>
