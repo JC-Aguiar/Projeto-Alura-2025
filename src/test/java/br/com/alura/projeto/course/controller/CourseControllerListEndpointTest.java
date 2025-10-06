@@ -1,11 +1,10 @@
-package br.com.alura.projeto.course;
+package br.com.alura.projeto.course.controller;
 
+import br.com.alura.projeto.course.CourseController;
 import br.com.alura.projeto.course.domain.*;
 import br.com.alura.projeto.course.dto.CourseInfoDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +19,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -35,9 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(CourseController.class)
 @Import({ CourseService.class, CourseMapper.class })
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CourseControllerTest {
+class CourseControllerListEndpointTest {
 
-    public static final String URI_LIST_COURSES_PAGE = "/admin/courses";
     @Autowired
     private MockMvc mockMvc;
 
@@ -50,10 +46,7 @@ class CourseControllerTest {
     @Autowired
     private CourseMapper courseMapper;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+    public static final String URI_LIST_COURSES_PAGE = "/admin/courses";
     private final OffsetDateTime dateReference = OffsetDateTime.of(
         2025,10, 2, 18, 22, 27, 169511500, ZoneOffset.UTC
     );
@@ -95,12 +88,8 @@ class CourseControllerTest {
         log.info("Records mocked!");
     }
 
-    @BeforeEach
-    public void mockingRepositoryResult() {
-    }
-
     @Test
-    void listAllCourses__noParameters_should_list_all_courses() throws Exception {
+    void listAllCourses__no_parameters__should_list_all_courses() throws Exception {
         log.info("Mocking records in persistence layer:");
         log.info("- Retrieving records using only example matcher.");
         when(courseRepository.findAll(any(Example.class)))
@@ -115,7 +104,7 @@ class CourseControllerTest {
     }
 
     @Test
-    void listAllCourses__usingParameters__should_list_only_first_course() throws Exception {
+    void listAllCourses__using_parameters__match_one__should_list_only_first_course() throws Exception {
         log.info("Mocking records in persistence layer:");
         log.info("- Retrieving records using only example matcher.");
         var mockedCourse = List.of(courses.get(0));
@@ -140,7 +129,7 @@ class CourseControllerTest {
     }
 
     @Test
-    void listAllCourses__usingParameters__should_not_list_any_course() throws Exception {
+    void listAllCourses__using_parameters__mismatch_all__should_not_list_any_course() throws Exception {
         log.info("Mocking empty collection in persistence layer:");
         when(courseRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -155,14 +144,11 @@ class CourseControllerTest {
             .andExpect(status().isOk())
             .andExpect(view().name("admin/course/list"))
             .andExpect(model().attributeExists("courses"))
-            .andExpect(model().attribute(
-                "courses",
-                emptyIterable()
-            ));
+            .andExpect(model().attribute("courses", emptyIterable()));
     }
 
     @Test
-    void listAllCourses__invalidParam_Code__should_abort_with_error_400() throws Exception {
+    void listAllCourses__invalid_parameter_code__should_report_erro() throws Exception {
         log.info("Executing request.");
         mockMvc.perform(
             get(URI_LIST_COURSES_PAGE)
@@ -171,7 +157,13 @@ class CourseControllerTest {
                 .param ("instructorEmail", "john.doe.instructor@alura.com")
                 .param ("status", CourseStatusType.ACTIVE.name())
             )
-            .andExpect(status().isBadRequest());
+            .andExpectAll(
+                status().isOk(),
+                view().name("admin/course/list"),
+                model().attributeExists("searchCourseDTO"),
+                model().attributeHasErrors("searchCourseDTO"),
+                model().attributeHasFieldErrors("searchCourseDTO", "code")
+            );
         ;
     }
 

@@ -22,7 +22,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
@@ -41,8 +44,14 @@ public class CourseController {
     @GetMapping("/admin/courses")
     public String list(
         @ModelAttribute @Valid SearchCourseDTO dto,
+        BindingResult result,
         Model model) {
 
+        if (result.hasErrors()) {
+            log.warn("Validation errors found for course: {}", result.getAllErrors());
+            model.addAttribute("searchCourseDTO", dto);
+            return "admin/course/list";
+        }
         log.info("JSP request: listing all courses filtered by users parameter.");
         log.info(dto.toString());
             var example = Example.of(courseMapper.toEntity(dto));
@@ -75,6 +84,8 @@ public class CourseController {
         log.info("JSP request: persisting new course.");
         log.info(dto.toString());
 
+        Consumer<String> addError = text -> model.addAttribute("error", text);
+
         if (result.hasErrors()) {
             log.warn("Validation errors found for course: {}", result.getAllErrors());
             model.addAttribute("newCourseFormDTO", dto);
@@ -88,17 +99,14 @@ public class CourseController {
         }
         catch (IllegalArgumentException e) {
             log.error("Invalid input for course creation: {}", e.getMessage());
-            redirectAttributes.addFlashAttribute("erro", e.getMessage());
-            return "redirect:/admin/course/new";
+            addError.accept(e.getMessage());
         }
         catch (Exception e) {
             log.error("Unexpected error during course creation: {}", e.getMessage(), e);
-            redirectAttributes.addFlashAttribute(
-                "erro",
-                "Erro ao criar curso: " + e.getMessage()
-            );
-            return "redirect:/admin/course/new";
+            addError.accept("Erro ao criar curso: " + e.getMessage());
         }
+        model.addAttribute("newCourseFormDTO", dto);
+        return "admin/course/form";
     }
 
     @Transactional
@@ -111,24 +119,21 @@ public class CourseController {
         String courseCode,
         RedirectAttributes redirectAttributes) {
 
-        Map.Entry<String, String> message;
+        Consumer<String> addError = text -> redirectAttributes.addFlashAttribute("error", text);
+        Consumer<String> addSuccess = text -> redirectAttributes.addFlashAttribute("success", text);
         try {
             var hasUpdatedCourse = courseService.deactivateCourseByCode(courseCode);
-            message = hasUpdatedCourse ?
-                Map.entry("success", "Course successfully deactivated.") :
-                Map.entry("error", "Course not found.");
+            if (hasUpdatedCourse) addSuccess.accept("Course successfully deactivated.");
+            else addError.accept("Course not found.");
         }
         catch (IllegalArgumentException e) {
             log.error("Error deactivating course code {}: {}", courseCode, e.getMessage());
-            message = Map.entry("error", e.getMessage());
+            addError.accept(e.getMessage());
         }
         catch (Exception e) {
             log.error("Unexpected error deactivating course with ID {}: {}", id, e.getMessage(), e);
-            message = Map.entry("error", "Error trying to deactivate course. Try again later.");
+            addError.accept("Error trying to deactivate course. Try again later.");
         }
-        redirectAttributes.addFlashAttribute(message.getKey(), message.getValue());
-        log.info("Message to delivery: {}", message);
-
         return "redirect:/admin/courses";
     }
 
