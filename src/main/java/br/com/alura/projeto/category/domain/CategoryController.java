@@ -1,5 +1,7 @@
-package br.com.alura.projeto.category;
+package br.com.alura.projeto.category.domain;
 
+import br.com.alura.projeto.category.dto.CategoryDTO;
+import br.com.alura.projeto.category.dto.NewCategoryForm;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,5 +1,6 @@
-package br.com.alura.projeto.category;
+package br.com.alura.projeto.category.dto;
 
+import br.com.alura.projeto.category.domain.Category;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
