@@ -1,31 +1,24 @@
-package br.com.alura.projeto.login;
+package br.com.alura.projeto.login.domain;
 
-import br.com.alura.projeto.category.domain.CategoryRepository;
 import br.com.alura.projeto.category.projection.SimpleCategoryAndCourse;
 import br.com.alura.projeto.login.dto.LoginCategoryInfoDTO;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.*;
 
 import static java.util.stream.Collectors.*;
 
-@Controller
-@Data
-public class LoginController {
+@Component
+public class LoginMapper {
 
-    @Autowired
-    private final CategoryRepository categoryRepository;
+    public List<LoginCategoryInfoDTO> toInfoDTO(SimpleCategoryAndCourse...entities) {
+        if (entities == null) return null;
+        return toInfoDTO(Arrays.asList(entities));
+    }
 
-    @GetMapping("/")
-    public String home(Model model) {
-        var dto = categoryRepository.findSomeActiveCoursesWithCategory(3)
-            .stream()
+    public List<LoginCategoryInfoDTO> toInfoDTO(Collection<SimpleCategoryAndCourse> entities) {
+        if (entities == null) return null;
+        return entities.stream()
             .collect(groupingBy(
                 record -> new LoginCategoryInfoDTO(
                     record.getCategory(),
@@ -46,7 +39,7 @@ public class LoginController {
             })
             .sorted(Comparator.comparing(LoginCategoryInfoDTO::order))
             .toList();
-        model.addAttribute("data", dto);
-        return "login";
     }
+
+
 }
