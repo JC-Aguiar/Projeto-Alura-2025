@@ -1,4 +1,4 @@
-CREATE TABLE course (
+CREATE TABLE Course (
     id                  bigint(20) AUTO_INCREMENT,
     name                varchar(256) NOT NULL,
     code                varchar(10) NOT NULL UNIQUE,
@@ -8,5 +8,5 @@ CREATE TABLE course (
     inactivationDate    datetime,
     categoryId          bigint(20),
     PRIMARY KEY (id),
-    FOREIGN KEY (categoryId) REFERENCES category(id)
+    FOREIGN KEY (categoryId) REFERENCES Category(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;

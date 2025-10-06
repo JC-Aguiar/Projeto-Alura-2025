@@ -12,6 +12,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: ci
+    env:
+      dbUser: ${{ secrets.dbUser }}
+      dbPassword: ${{ secrets.dbPassword }}
 
     steps:
       - name: Checkout Repository
