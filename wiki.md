@@ -41,22 +41,25 @@ to list all course (JSP)
 to create a new course (JSP)
 - [ ] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
 to edit a course (JSP)
-- [ ] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
+- [X] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
 to inactivate a course (JSP)
-- [ ] Test course controller
-  - [ ] GET: list all JSP
-  - [ ] GET: create a course JSP
-  - [ ] GET: edit a course JSP
-- [ ] Update category entity, adding 1:N relationship with course  
-- [ ] Improve [login.jsp](src/main/webapp/WEB-INF/views/login.jsp) to list some/all courses
+- [X] Test course controller
+  - [X] GET JSP: list all courses
+  - [ ] GET JSP: create course
+  - [ ] GET JSP: edit course
+  - [ ] GET JSP: inactivate course
+- [X] Create sql script to insert as many courses as listed in [login.jsp](src/main/webapp/WEB-INF/views/login.jsp)
+- [ ] Implement [login.jsp](src/main/webapp/WEB-INF/views/login.jsp) endpoint call to get courses (JSP)
+- [ ] Improve [login.jsp](src/main/webapp/WEB-INF/views/login.jsp) to list some/all courses (JSP)
 - [ ] Implement logic in the [CategoryController](src/main/java/br/com/alura/projeto/category/CategoryController.java) 
 to edit a category (JSP)
 - [ ] Rename and improve [newForm.jsp](src/main/webapp/WEB-INF/views/admin/category/newForm.jsp) to serve as 
-both new and update category
-- [ ] Create in the [list.jsp](src/main/webapp/WEB-INF/views/admin/category/list.jsp) option to link to the JSP 
-responsible to list all courses (filtering by they category)
+both creation and edition (JSP)
 - [ ] Implement student registration logic in the [RegistrationController](src/main/java/br/com/alura/projeto/registration/RegistrationController.java)
 - [ ] Implement registration report logic in the [RegistrationController](src/main/java/br/com/alura/projeto/registration/RegistrationController.java)
+- [ ] Fix [login.jsp](src/main/webapp/WEB-INF/views/admin/course/list.jsp) responsiveness (JSP)
+- [ ] Change inactivation option in [login.jsp](src/main/webapp/WEB-INF/views/admin/course/list.jsp), from dropdown 
+to modal (JSP)
 - [ ] Create custom checked-exceptions for each relevant business rule
 - [ ] Add javadoc in all methods
 
@@ -80,8 +83,11 @@ responsible to list all courses (filtering by they category)
   - [ ] PUT: with invalid payload (field length)
   - [ ] PUT: with invalid payload (code patter)
   - [ ] PUT: with invalid payload (code uniques)
-- [ ] Implement course inactivation endpoint
-- [ ] Test course inactivation endpoint
+- [ ] Implement course inactivation Rest API endpoint
+- [ ] Implement pagination in [login.jsp](src/main/webapp/WEB-INF/views/admin/course/list.jsp) and [login.jsp](src/main/webapp/WEB-INF/views/admin/category/list.jsp) (JSP)
+- [ ] Create in the [list.jsp](src/main/webapp/WEB-INF/views/admin/category/list.jsp) option to link to the JSP
+  responsible to list all courses filtering by the current category record (JSP)
+- [ ] Test course inactivation Rest API endpoint
   - [ ] PUT: with valid path (match)
   - [ ] PUT: with valid path (non-match)
   - [ ] PUT: with valid path (data not found)

@@ -62,4 +62,8 @@ public class CourseService {
         return courseRepository.findAll(courseExample, pageable);
     }
 
+    public boolean deactivateCourseByCode(String code) {
+        return courseRepository.updateStatusByCode(code) > 0;
+    }
+
 }

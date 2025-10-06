@@ -8,6 +8,10 @@
     max-height: var(--banner-height) !important;
 }
 
+td {
+    vertical-align: middle;
+}
+
 @media (max-width: 768px) {
     .content-container {
         height: calc(100vh - var(--banner-height) - var(--banner-marging));

@@ -2,15 +2,15 @@ package br.com.alura.projeto.course;
 
 import br.com.alura.projeto.course.domain.CourseMapper;
 import br.com.alura.projeto.course.domain.CourseService;
-import br.com.alura.projeto.course.dto.CourseInfoDTO;
 import br.com.alura.projeto.course.dto.NewCourseFormDTO;
 import br.com.alura.projeto.course.dto.SearchCourseDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Slf4j
 @Data
@@ -101,10 +103,33 @@ public class CourseController {
 
     @Transactional
     @PostMapping("/course/{code}/inactive")
-    public ResponseEntity<?> updateStatus(@PathVariable("code") String courseCode) {
-        // TODO: Implementar a Questão 2 - Inativação de Curso aqui...
+    public String inactivate(
+        @PathVariable("code")
+        @Valid
+        @Length(min = 4, max = 10)
+        @Pattern(regexp = "^[a-zA-Z]+(-[a-zA-Z]+)*$")
+        String courseCode,
+        RedirectAttributes redirectAttributes) {
 
-        return ResponseEntity.ok().build();
+        Map.Entry<String, String> message;
+        try {
+            var hasUpdatedCourse = courseService.deactivateCourseByCode(courseCode);
+            message = hasUpdatedCourse ?
+                Map.entry("success", "Course successfully deactivated.") :
+                Map.entry("error", "Course not found.");
+        }
+        catch (IllegalArgumentException e) {
+            log.error("Error deactivating course code {}: {}", courseCode, e.getMessage());
+            message = Map.entry("error", e.getMessage());
+        }
+        catch (Exception e) {
+            log.error("Unexpected error deactivating course with ID {}: {}", id, e.getMessage(), e);
+            message = Map.entry("error", "Error trying to deactivate course. Try again later.");
+        }
+        redirectAttributes.addFlashAttribute(message.getKey(), message.getValue());
+        log.info("Message to delivery: {}", message);
+
+        return "redirect:/admin/courses";
     }
 
 }

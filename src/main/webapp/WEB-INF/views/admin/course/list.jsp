@@ -1,6 +1,9 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.time.OffsetDateTime, java.util.Date" %>
+
+<fmt:formatDate value="${convertedDate}" pattern="dd/MM/yyyy HH:mm:ss"/>
 
 <!DOCTYPE html>
 <html>
@@ -12,11 +15,8 @@
     
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/list-courses.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
-        crossorigin="anonymous"
-    >
+    <link rel="stylesheet" type="text/css" href="/assets/external-libs/bootstrap/css/bootstrap.min.css">
+    <script src="/assets/external-libs/bootstrap/js/bootstrap.bundle.js"></script>
 </head>
 
 <body>
@@ -74,6 +74,7 @@
         </div>
 
         <div class="frame rounded mt-3">
+
             <c:if test="${empty courses or courses == null}">
                 <div class="row align-items-center text-white text-center w-100 p-2">
                     <h4 class="py-3 m-0">
@@ -84,25 +85,58 @@
             <c:if test="${not empty courses and courses != null}">
                 <table class="table table-transparent">
                     <thead>
-                        <tr>
+                        <tr class="align-items-center">
                             <th>Nome</th>
                             <th>Código</th>
                             <th>Descrição</th>
                             <th>Email do Instrutor</th>
                             <th>Status</th>
                             <th>Data Inativação</th>
-                            <th width="50"></th>
+                            <th width="40"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${courses}" var="course">
-                            <tr>
+                            <tr class="small">
                                 <td>${course.name()}</td>
                                 <td>${course.code()}</td>
                                 <td>${course.description()}</td>
                                 <td>${course.instructorEmail()}</td>
-                                <td>${course.status()}</td>
-                                <td>${course.inactivationDate()}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <div class="btn btn-outline-primary btn-sm small dropdown-toggle ${course.status() == 'ACTIVE' ? '' : 'disabled'}"
+                                            data-bs-toggle="dropdown" 
+                                            aria-expanded="false"
+                                        >
+                                            ${course.status()}
+                                        </div>
+                                        <ul class="dropdown-menu bg-dark">
+                                            <li class="small">
+                                                <form 
+                                                    class="dropdown-item bg-dark"
+                                                    action="/course/${course.code()}/inactive" 
+                                                    method="post"
+                                                >
+                                                    <button 
+                                                        type="submit" 
+                                                        class="w-100 btn btn-outline-danger btn-sm border-0"
+                                                    >
+                                                        Desativar curso
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                    <%
+                                        Object course = pageContext.getAttribute("course");
+                                        OffsetDateTime offsetDate = (OffsetDateTime) course.getClass().getMethod("inactivationDate").invoke(course);
+                                        Date date = offsetDate == null ? null : Date.from(offsetDate.toInstant());
+                                        pageContext.setAttribute("date", date);
+                                    %>
+                                    <fmt:formatDate value="<%= date %>" pattern="dd/MM/yyyy"/>
+                                </td>
                                 <td>
                                     <a class="btn btn-outline-primary bg-transparent m-0 p-0 border-0 d-flex justify-content-center" 
                                         href="/admin/course/edit/${course.id()}"
