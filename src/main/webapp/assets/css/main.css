@@ -19,13 +19,15 @@
 }
 
 :root {
-    --color-bg-primary: rgb(13, 26, 58);                /* Obtained in login.css */
-    --color-bg-secondary: rgb(0, 20, 40);               /* Obtained in login.css */
-    --color-figma-bg-dark: rgb(5, 25, 51);              /* Obtained in figma's background */
-    --color-figma-btn-light: rgba(163, 255, 191, 1);    /* Obtained in figma 'btn' */
-    --color-figma-frame-dark: rgba(9, 51, 102, 0.4);    /* Obtained in figma 'Frame 901' */
-    --color-figma-bg-light: rgb(22, 123, 247);          /* Obtained in figma 'luz-topo' */
-    --color-figma-bg-purple: rgb(142, 45, 226);         /* Obtained in figma 'luz-roxa' */
+    --color-bg-primary: rgb(13, 26, 58);                    /* Obtained in login.css */
+    --color-bg-secondary: rgb(0, 20, 40);                   /* Obtained in login.css */
+    --color-figma-bg-dark: rgb(5, 25, 51);                  /* Obtained in figma's background */
+    --color-figma-btn-light: rgba(163, 255, 191, 1);        /* Obtained in figma 'btn' */
+    --color-figma-frame-dark: rgba(9, 51, 102, 0.4);        /* Obtained in figma 'Frame 901' */
+    --color-figma-bg-light: rgb(22, 123, 247);              /* Obtained in figma 'luz-topo' */
+    --color-figma-bg-purple: rgb(142, 45, 226);             /* Obtained in figma 'luz-roxa' */
+    --color-figma-card-light: rgba(22, 123, 247, 0.5);     /* Obtained in figma 'Rectangle Copy 2' */
+    --color-figma-card-dark: rgba(5, 29, 59, 1);            /* Obtained in figma 'Rectangle Copy 2' */
 }
 
 * {
@@ -142,12 +144,29 @@ body {
 }
 
 .highlight button {
-    border: none;
     width: 100%;
-    height: 100%;
+    height: 46px;
+    gap: 12px;
+    opacity: 1;
+    border: none;
     font-weight: 900;
     font-size: 14px;
-    line-height: 100%;
+    border-radius: 24px;
+    letter-spacing: 1.42px;
+    text-transform: uppercase;
+    color: var(--color-figma-bg-dark);
+    background-color: var(--color-figma-btn-light);
+}
+
+.highlight-button {
+    width: 100%;
+    height: 46px;
+    gap: 12px;
+    opacity: 1;
+    border: none;
+    font-weight: 900;
+    font-size: 14px;
+    border-radius: 24px;
     letter-spacing: 1.42px;
     text-transform: uppercase;
     color: var(--color-figma-bg-dark);
