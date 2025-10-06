@@ -1,4 +1,4 @@
-package br.com.alura.projeto.category;
+package br.com.alura.projeto.category.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
