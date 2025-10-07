@@ -8,7 +8,12 @@
     max-height: var(--banner-height) !important;
 }
 
+table {
+    font-size: small;
+}
+
 td {
+    font-size: smaller;
     vertical-align: middle;
 }
 
