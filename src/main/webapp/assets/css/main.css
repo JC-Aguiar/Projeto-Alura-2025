@@ -18,6 +18,24 @@
   font-display: swap;
 }
 
+/* Font: Roboto Mono (default) */
+@font-face {
+  font-family: 'Roboto Mono';
+  src: url('../font/roboto-mono/RobotoMono-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font: Roboto Mono (italic) */
+@font-face {
+  font-family: 'Roboto Mono';
+  src: url('../font/roboto-mono/RobotoMono-Italic-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
     --color-bg-primary: rgb(13, 26, 58);                    /* Obtained in login.css */
     --color-bg-secondary: rgb(0, 20, 40);                   /* Obtained in login.css */
@@ -26,8 +44,11 @@
     --color-figma-frame-dark: rgba(9, 51, 102, 0.4);        /* Obtained in figma 'Frame 901' */
     --color-figma-bg-light: rgb(22, 123, 247);              /* Obtained in figma 'luz-topo' */
     --color-figma-bg-purple: rgb(142, 45, 226);             /* Obtained in figma 'luz-roxa' */
-    --color-figma-card-light: rgba(22, 123, 247, 0.5);     /* Obtained in figma 'Rectangle Copy 2' */
+    --color-figma-card-light: rgba(22, 123, 247, 0.5);      /* Obtained in figma 'Rectangle Copy 2' */
     --color-figma-card-dark: rgba(5, 29, 59, 1);            /* Obtained in figma 'Rectangle Copy 2' */
+
+    --banner-height: 72px;
+    --banner-marging: 16px;
 }
 
 * {
@@ -112,65 +133,6 @@ body {
     left: 0%;
     opacity: 1;
     transform: translate(-50%, 0%) scale(1.547, 1) rotate(-29deg);
-}
-
-.highlight {
-    /* 
-    Figma values:
-        width: 500;
-        height: 250;
-        top: 63px;
-        left: 123px;
-        angle: 0 deg;
-        opacity: 1;
-        border-radius: 5px;
-        border-width: 0.5px;
-    */
-    border-radius: 5px;
-    border-width: 0.5px;
-    padding: 16px 8px 16px 8px;
-    color: white;
-    position: relative;
-    display: block;
-    text-align: center;
-    overflow: hidden;
-    background: var(--color-figma-frame-dark) !important;
-}
-
-.highlight-body {
-    display: grid;
-    padding: 16px 8px 16px 8px;
-    gap: 8px;
-}
-
-.highlight button {
-    width: 100%;
-    height: 46px;
-    gap: 12px;
-    opacity: 1;
-    border: none;
-    font-weight: 900;
-    font-size: 14px;
-    border-radius: 24px;
-    letter-spacing: 1.42px;
-    text-transform: uppercase;
-    color: var(--color-figma-bg-dark);
-    background-color: var(--color-figma-btn-light);
-}
-
-.highlight-button {
-    width: 100%;
-    height: 46px;
-    gap: 12px;
-    opacity: 1;
-    border: none;
-    font-weight: 900;
-    font-size: 14px;
-    border-radius: 24px;
-    letter-spacing: 1.42px;
-    text-transform: uppercase;
-    color: var(--color-figma-bg-dark);
-    background-color: var(--color-figma-btn-light);
 }
 
 .frame {

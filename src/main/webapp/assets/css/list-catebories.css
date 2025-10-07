@@ -3,10 +3,47 @@
     max-height: var(--banner-height) !important;
 }
 
+.login-panel {
+    position: fixed;
+    width: 500px;
+    height: 250px;
+    top: 63px;
+    left: 123px;
+}
+
+.cards-panel {
+    width: 649;
+    height: 717;
+    top: 63px;
+    left: 701px;
+    gap: 24px;
+    opacity: 1;
+}
+
+.login-title {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 100%;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.login-text {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 100%;
+    letter-spacing: 0.3px;
+    text-align: center;
+}
+
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 0.5rem;
+}
+
+#CREATE-NEW-ONE {
+    border: 1px dotted;
 }
 
 .mini-card {
@@ -19,7 +56,6 @@
     border: 1px solid var(--color-figma-card-light);
     box-shadow: 5px 6px 14px 0px rgba(0, 0, 0, 0.04);
     transition: transform 0.3s, box-shadow 0.3s;
-    overflow: hidden;
 }
 
 .mini-card:hover {
@@ -48,12 +84,13 @@
 .mini-card-courses {
     font-weight: 100;
     font-style: normal;
-    font-size: clamp(10px, 5vw, 12px);
+    font-size: 12px;
     letter-spacing: 0px;
     color: rgba(229, 241, 255, 1);
 }
 
 @media (max-width: 768px) {
+
     .content-container {
         width: 100vw;
         height: calc(100vh - var(--banner-height) - var(--banner-marging));

@@ -78,7 +78,7 @@
             <c:if test="${empty courses or courses == null}">
                 <div class="row align-items-center text-white text-center w-100 p-2">
                     <h4 class="py-3 m-0">
-                        Nenhum registro na abse disponível
+                        Nenhum registro na base disponível
                     </h4>
                 </div>
             </c:if>
