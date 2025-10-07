@@ -2,30 +2,30 @@ package br.com.alura.projeto.course;
 
 import br.com.alura.projeto.course.domain.CourseMapper;
 import br.com.alura.projeto.course.domain.CourseService;
+import br.com.alura.projeto.course.dto.InactivateCourseDTO;
 import br.com.alura.projeto.course.dto.NewCourseFormDTO;
 import br.com.alura.projeto.course.dto.SearchCourseDTO;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
@@ -110,24 +110,32 @@ public class CourseController {
     }
 
     @Transactional
-    @PostMapping("/course/{code}/inactive")
+    @PostMapping("admin/course/{code}/inactive")
     public String inactivate(
-        @PathVariable("code")
-        @Valid
-        @Length(min = 4, max = 10)
-        @Pattern(regexp = "^[a-zA-Z]+(-[a-zA-Z]+)*$")
-        String courseCode,
+        @PathVariable("code") String code,
+        @Autowired LocalValidatorFactoryBean validator,
         RedirectAttributes redirectAttributes) {
 
         Consumer<String> addError = text -> redirectAttributes.addFlashAttribute("error", text);
         Consumer<String> addSuccess = text -> redirectAttributes.addFlashAttribute("success", text);
         try {
-            var hasUpdatedCourse = courseService.deactivateCourseByCode(courseCode);
+            var codeDTO = new InactivateCourseDTO(code);
+            var errors = new BeanPropertyBindingResult(codeDTO, "parameter");
+            validator.validate(codeDTO, errors);
+            if (errors.hasErrors()) {
+                log.warn("Validation errors for course code {}: {}", code, errors.getAllErrors());
+                var errorMessage = errors.getFieldErrors().stream()
+                    .map(FieldError::getDefaultMessage)
+                    .collect(Collectors.joining("; "));
+                addError.accept("Invalid course code: " + errorMessage);
+                return "redirect:/admin/courses";
+            }
+            var hasUpdatedCourse = courseService.deactivateCourseByCode(code);
             if (hasUpdatedCourse) addSuccess.accept("Course successfully deactivated.");
             else addError.accept("Course not found.");
         }
         catch (IllegalArgumentException e) {
-            log.error("Error deactivating course code {}: {}", courseCode, e.getMessage());
+            log.error("Error deactivating course code {}: {}", code, e.getMessage());
             addError.accept(e.getMessage());
         }
         catch (Exception e) {

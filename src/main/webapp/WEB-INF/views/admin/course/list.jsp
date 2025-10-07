@@ -86,18 +86,26 @@
                 <table class="table table-transparent">
                     <thead>
                         <tr class="align-items-center">
+                            <th width="40"></th>
                             <th>Nome</th>
                             <th>Código</th>
                             <th>Descrição</th>
                             <th>Email do Instrutor</th>
                             <th>Status</th>
-                            <th>Data Inativação</th>
-                            <th width="40"></th>
+                            <th>Inativação</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${courses}" var="course">
                             <tr class="small">
+                                <!-- Edition Icon -->
+                                <td>
+                                    <a class="btn btn-outline-primary bg-transparent m-0 p-0 border-0 d-flex justify-content-center" 
+                                        href="/admin/course/edit/${course.id()}"
+                                    >
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </td>
                                 <td>${course.name()}</td>
                                 <td>${course.code()}</td>
                                 <td>${course.description()}</td>
@@ -114,7 +122,7 @@
                                             <li class="small">
                                                 <form 
                                                     class="dropdown-item bg-dark"
-                                                    action="/course/${course.code()}/inactive" 
+                                                    action="/admin/course/${course.code()}/inactive" 
                                                     method="post"
                                                 >
                                                     <button 
@@ -136,13 +144,6 @@
                                         pageContext.setAttribute("date", date);
                                     %>
                                     <fmt:formatDate value="<%= date %>" pattern="dd/MM/yyyy"/>
-                                </td>
-                                <td>
-                                    <a class="btn btn-outline-primary bg-transparent m-0 p-0 border-0 d-flex justify-content-center" 
-                                        href="/admin/course/edit/${course.id()}"
-                                    >
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
                                 </td>
                             </tr>
                         </c:forEach>
