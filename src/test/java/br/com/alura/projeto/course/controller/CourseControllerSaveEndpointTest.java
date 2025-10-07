@@ -1,0 +1,129 @@
+package br.com.alura.projeto.course.controller;
+
+import br.com.alura.projeto.course.CourseController;
+import br.com.alura.projeto.course.domain.Course;
+import br.com.alura.projeto.course.domain.CourseMapper;
+import br.com.alura.projeto.course.domain.CourseRepository;
+import br.com.alura.projeto.course.domain.CourseService;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@Slf4j
+@WebMvcTest(CourseController.class)
+@Import({ CourseService.class, CourseMapper.class })
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class CourseControllerSaveEndpointTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private CourseMapper courseMapper;
+
+    public static final String URI_SAVE_COURSE_PAGE = "/admin/course/save";
+
+    @Test
+    void testSave__valid_fields__saves_course_and_redirects() throws Exception {
+        when(courseRepository.save(any(Course.class))).thenReturn(new Course());
+        when(courseRepository.existsByCode(anyString())).thenReturn(false);
+
+        mockMvc.perform(
+            post(URI_SAVE_COURSE_PAGE)
+                .param("name", "Test Course")
+                .param("code", "TEST")
+                .param("description", "Description")
+                .param("instructorEmail", "random.person@mock.com"))
+            .andExpectAll(
+                status().is3xxRedirection(),
+                redirectedUrl("/admin/courses"),
+                flash().attribute("success", "Curso criado com sucesso!")
+            );
+        verify(courseRepository, times(1)).save(any(Course.class));
+    }
+
+    @Test
+    void testSave__invalid_fields__returns_same_page_with_erros() throws Exception {
+        when(courseRepository.save(any(Course.class))).thenReturn(new Course());
+        when(courseRepository.existsByCode(anyString())).thenReturn(false);
+
+        mockMvc.perform(
+            post(URI_SAVE_COURSE_PAGE)
+                .param("name", "")
+                .param("code", "TEST-COURSE")
+                .param("description", "Lorem Ipsum".repeat(50))
+                .param("instructorEmail", "No thanks!"))
+            .andExpectAll(
+                status().isOk(),
+                model().attributeExists("newCourseFormDTO"),
+                model().attributeHasErrors("newCourseFormDTO"),
+                model().attributeHasFieldErrors("newCourseFormDTO", "name"),
+                model().attributeHasFieldErrors("newCourseFormDTO", "code"),
+                model().attributeHasFieldErrors("newCourseFormDTO", "description"),
+                model().attributeHasFieldErrors("newCourseFormDTO", "instructorEmail")
+            );
+        verify(courseRepository, never()).save(any(Course.class));
+    }
+
+    @Test
+    void testSave__IllegalArgumentException__redirects_with_error() throws Exception {
+        when(courseRepository.save(any(Course.class))).thenThrow(
+            new IllegalArgumentException("Invalid course code")
+        );
+        mockMvc.perform(post(URI_SAVE_COURSE_PAGE)
+                .param("name", "Test Course")
+                .param("code", "TEST")
+                .param("description", "Description")
+                .param("instructorEmail", "random.person@mock.com"))
+            .andExpectAll(
+                status().isOk(),
+                view().name("admin/course/form"),
+                model().attributeExists("newCourseFormDTO"),
+                model().attribute("error", "Invalid course code")
+            );
+    }
+
+    @Test
+    void testSave__UnexpectedException__redirects_with_error() throws Exception {
+        when(courseRepository.save(any(Course.class))).thenThrow(
+            new RuntimeException("Database error")
+        );
+        mockMvc.perform(post(URI_SAVE_COURSE_PAGE)
+                .param("name", "Test Course")
+                .param("code", "TEST")
+                .param("description", "Description")
+                .param("instructorEmail", "random.person@mock.com"))
+            .andExpectAll(
+                status().isOk(),
+                view().name("admin/course/form"),
+                model().attributeExists("newCourseFormDTO"),
+                model().attribute("error", "Erro ao criar curso: Database error")
+            );
+    }
+
+}
+
+
+
+
+
+
+
+
+
