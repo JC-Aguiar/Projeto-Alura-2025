@@ -12,10 +12,10 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Modifying
     @Query(nativeQuery = true, value = """
-        UPDATE  course
-        SET     status='INACTIVE',
-                inactivationDate=CURRENT_TIMESTAMP()
-        WHERE   code=:code
+        UPDATE  Course
+        SET     status = 'INACTIVE',
+                inactivationDate = CURRENT_TIMESTAMP()
+        WHERE   code = :code
     """)
     int updateStatusByCode(String code);
 
