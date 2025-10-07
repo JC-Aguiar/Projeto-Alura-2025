@@ -15,16 +15,13 @@
     
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/login.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
-        crossorigin="anonymous"
-    >
+    <link rel="stylesheet" type="text/css" href="/assets/external-libs/bootstrap/css/bootstrap.min.css">
+    <script src="/assets/external-libs/bootstrap/js/bootstrap.bundle.js"></script>
     <style>
         .responsive-text {
             font-size: 1.2rem;
         }
-        .erro {
+        .error {
             color: red;
             font-size: 0.875rem;
         }
@@ -32,6 +29,7 @@
 </head>
 
 <body>
+
     <div class="container p-md-3">
         <section class="text-white p-1">
             <div class="highlight frame m-1">
@@ -44,69 +42,117 @@
                     </div>
                 </div>
             </div>
+            
+            <c:if test="${not empty error}">
+                <div class="fixed-top bagde bagde-danger">${error}</div>
+            </c:if>
+            <c:if test="${not empty success}">
+                <div class="success bagde bagde-success">${success}</div>
+            </c:if>
 
             <form:form 
                 modelAttribute="newCourseFormDTO" 
                 cssClass="form-horizontal panel-body" 
-                action="/admin/course/save" 
+                action="/admin/course/save/${id}" 
                 method="post"
             >
                 <div class="responsive-text h-100 frame rounded mt-3 mx-1 pt-2 px-3 px-lg-4 pb-4">
                     <div class="row form-group pb-5 pb-lg-3">
-                        <!-- Campo: name -->
+                        
+                        <!-- Field: name -->
                         <div class="col-12 col-lg-6 p-2">
-                            <label for="newCourse-name" class="form-label">
+                            <label for="course-name" class="form-label">
                                 Nome do Curso
                             </label>
                             <form:input 
                                 path="name" 
                                 type="text" 
-                                id="newCourse-name" 
+                                id="course-name" 
                                 cssClass="form-control" 
                                 required="true"
                             />
-                            <form:errors path="name" cssClass="erro"/>
+                            <form:errors path="name" cssClass="error"/>
                         </div>
-                        <!-- Campo: code -->
+                        <!-- Field: code -->
                         <div class="col-12 col-lg-6 p-2">
-                            <label for="newCourse-code" class="form-label">
+                            <label for="course-code" class="form-label">
                                 Código
                             </label>
                             <form:input 
                                 path="code" 
                                 type="text" 
-                                id="newCourse-code" 
+                                id="course-code" 
                                 cssClass="form-control" 
                                 required="true"
                             />
-                            <form:errors path="code" cssClass="erro"/>
+                            <form:errors path="code" cssClass="error"/>
                         </div>
-                        <!-- Campo: description -->
+                        <!-- Field: description -->
                         <div class="col-12 p-2">
-                            <label for="newCourse-description" class="form-label">
+                            <label for="course-description" class="form-label">
                                 Descrição
                             </label>
                             <form:textarea 
                                 path="description" 
-                                id="newCourse-description" 
+                                id="course-description" 
                                 cssClass="form-control" 
                                 rows="4"
                             />
-                            <form:errors path="description" cssClass="erro"/>
+                            <form:errors path="description" cssClass="error"/>
                         </div>
-                        <!-- Campo: instructorEmail -->
+                        <!-- Field: instructorEmail -->
                         <div class="col-12 p-2">
-                            <label for="newCourse-instructorEmail" class="form-label">
+                            <label for="course-instructorEmail" class="form-label">
                                 Email do Instrutor
                             </label>
                             <form:input 
                                 path="instructorEmail" 
                                 type="email" 
-                                id="newCourse-instructorEmail" 
+                                id="course-instructorEmail" 
                                 cssClass="form-control" 
                                 required="true"
                             />
-                            <form:errors path="instructorEmail" cssClass="erro"/>
+                            <form:errors path="instructorEmail" cssClass="error"/>
+                        </div>
+                        <!-- Field: categoryId -->
+                        <div class="col-12 col-lg-6 p-2">
+                            <label for="course-categoryId" class="form-label">
+                                Categoria
+                            </label>
+                            <form:select 
+                                path="categoryId" 
+                                id="course-categoryId" 
+                                cssClass="form-control"
+                                required="true"
+                            >
+                                <form:option value="" label="-- Selecione uma categoria --"/>
+                                <form:options 
+                                    items="${listCategoryDTO}" 
+                                    itemValue="id" 
+                                    itemLabel="name"
+                                />
+                            </form:select>
+                            <form:errors path="categoryId" cssClass="error"/>
+                        </div>
+                        <!-- Field: status -->
+                        <div class="col-12 col-lg-6 p-2">
+                            <label for="course-instructorEmail" class="form-label">
+                                Status
+                            </label>
+                            <form:select 
+                                path="status" 
+                                id="course-status" 
+                                cssClass="form-control"
+                                required="true"
+                            >
+                                <form:option value="" label="-- Selecione um Status --"/>
+                                <form:options 
+                                    items="${courseStatusType}" 
+                                    itemValue="name" 
+                                    itemLabel="name"
+                                />
+                            </form:select>
+                            <form:errors path="status" cssClass="error"/>
                         </div>
                     </div>
                     <input 

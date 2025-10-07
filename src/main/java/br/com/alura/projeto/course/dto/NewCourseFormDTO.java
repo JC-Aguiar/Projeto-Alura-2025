@@ -1,10 +1,17 @@
 package br.com.alura.projeto.course.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import br.com.alura.projeto.course.domain.CourseStatusType;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.OffsetDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class NewCourseFormDTO {
 
     @NotBlank
@@ -24,38 +31,14 @@ public class NewCourseFormDTO {
     @Length(max = 150)
     private String instructorEmail;
 
+    @NotNull
+    private CourseStatusType status = CourseStatusType.ACTIVE;
 
-    public NewCourseFormDTO() {}
+    @PastOrPresent
+    private OffsetDateTime inactivationDate;
 
-    public String getName() {
-        return name;
-    }
+    @NotNull
+    @Positive
+    private Long categoryId;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getInstructorEmail() {
-        return instructorEmail;
-    }
-
-    public void setInstructorEmail(String instructorEmail) {
-        this.instructorEmail = instructorEmail;
-    }
 }

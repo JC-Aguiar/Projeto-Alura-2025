@@ -3,7 +3,7 @@ package br.com.alura.projeto.course.domain;
 import br.com.alura.projeto.course.dto.CourseInfoDTO;
 import br.com.alura.projeto.course.dto.NewCourseFormDTO;
 import br.com.alura.projeto.course.dto.SearchCourseDTO;
-import br.com.alura.projeto.course.dto.UpdateCourseFormDTO;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,6 +19,19 @@ public class CourseMapper {
             entity.getInstructorEmail(),
             entity.getStatus(),
             entity.getInactivationDate().orElse(null)
+        );
+    }
+
+    public NewCourseFormDTO toFormDTO(Course entity, Long categoryId) {
+        if (entity == null) return null;
+        return new NewCourseFormDTO(
+            entity.getName(),
+            entity.getCode(),
+            entity.getDescription().orElse(null),
+            entity.getInstructorEmail(),
+            entity.getStatus(),
+            entity.getInactivationDate().orElse(null),
+            categoryId
         );
     }
 
@@ -46,17 +59,11 @@ public class CourseMapper {
             .build();
     }
 
-    public Course toEntity(UpdateCourseFormDTO dto) {
+    public Course toEntity(NewCourseFormDTO dto, @Nullable Long id) {
         if (dto == null) return null;
-        return Course
-            .builder()
-            .name(dto.name())
-            .code(dto.code())
-            .description(dto.description())
-            .instructorEmail(dto.instructorEmail())
-            .status(dto.status())
-            .inactivationDate(dto.inactivationDate())
-            .build();
+        var entity = toEntity(dto);
+        entity.setId(id);
+        return entity;
     }
 
 

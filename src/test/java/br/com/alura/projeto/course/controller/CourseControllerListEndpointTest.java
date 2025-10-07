@@ -1,5 +1,6 @@
 package br.com.alura.projeto.course.controller;
 
+import br.com.alura.projeto.category.domain.CategoryRepository;
 import br.com.alura.projeto.course.CourseController;
 import br.com.alura.projeto.course.domain.*;
 import br.com.alura.projeto.course.dto.CourseInfoDTO;
@@ -39,6 +40,9 @@ class CourseControllerListEndpointTest {
 
     @MockBean
     private CourseRepository courseRepository;
+
+    @MockBean
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private CourseService courseService;

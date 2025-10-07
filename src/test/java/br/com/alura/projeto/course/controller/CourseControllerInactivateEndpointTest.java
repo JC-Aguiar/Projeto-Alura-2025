@@ -1,7 +1,7 @@
 package br.com.alura.projeto.course.controller;
 
+import br.com.alura.projeto.category.domain.CategoryRepository;
 import br.com.alura.projeto.course.CourseController;
-import br.com.alura.projeto.course.domain.Course;
 import br.com.alura.projeto.course.domain.CourseMapper;
 import br.com.alura.projeto.course.domain.CourseRepository;
 import br.com.alura.projeto.course.domain.CourseService;
@@ -13,12 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -34,6 +30,9 @@ class CourseControllerInactivateEndpointTest {
 
     @MockBean
     private CourseRepository courseRepository;
+
+    @MockBean
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private CourseService courseService;

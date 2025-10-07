@@ -1,5 +1,6 @@
 package br.com.alura.projeto.course.controller;
 
+import br.com.alura.projeto.category.domain.CategoryRepository;
 import br.com.alura.projeto.course.CourseController;
 import br.com.alura.projeto.course.domain.CourseMapper;
 import br.com.alura.projeto.course.domain.CourseRepository;
@@ -7,6 +8,7 @@ import br.com.alura.projeto.course.domain.CourseService;
 import br.com.alura.projeto.course.dto.NewCourseFormDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @WebMvcTest(CourseController.class)
 @Import({ CourseService.class, CourseMapper.class })
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CourseControllerNewEndpointTest {
 
     @Autowired
@@ -27,6 +30,9 @@ class CourseControllerNewEndpointTest {
 
     @MockBean
     private CourseRepository courseRepository;
+
+    @MockBean
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private CourseService courseService;

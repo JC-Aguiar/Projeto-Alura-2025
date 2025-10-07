@@ -45,16 +45,17 @@ to edit a course (JSP)
 to inactivate a course (JSP)
 - [X] Test course controller
   - [X] GET JSP: list all courses
-  - [ ] GET JSP: create course
-  - [ ] GET JSP: edit course
-  - [ ] GET JSP: inactivate course
+  - [X] GET JSP: create course
+  - [X] GET JSP: edit course
+  - [X] GET JSP: inactivate course
 - [X] Create sql script to insert as many courses as listed in [login.jsp](src/main/webapp/WEB-INF/views/login.jsp)
-- [ ] Implement [login.jsp](src/main/webapp/WEB-INF/views/login.jsp) endpoint call to get courses (JSP)
-- [ ] Improve [login.jsp](src/main/webapp/WEB-INF/views/login.jsp) to list some/all courses (JSP)
+- [X] Implement [login.jsp](src/main/webapp/WEB-INF/views/login.jsp) endpoint call to get courses (JSP)
+- [X] Improve [login.jsp](src/main/webapp/WEB-INF/views/login.jsp) to list some/all courses (JSP)
 - [ ] Implement logic in the [CategoryController](src/main/java/br/com/alura/projeto/category/CategoryController.java) 
 to edit a category (JSP)
 - [ ] Rename and improve [newForm.jsp](src/main/webapp/WEB-INF/views/admin/category/newForm.jsp) to serve as 
 both creation and edition (JSP)
+- [ ] Improve course's status to be able to activate and inactivate (also in the edition page)  
 - [ ] Implement student registration logic in the [RegistrationController](src/main/java/br/com/alura/projeto/registration/RegistrationController.java)
 - [ ] Implement registration report logic in the [RegistrationController](src/main/java/br/com/alura/projeto/registration/RegistrationController.java)
 - [ ] Fix [login.jsp](src/main/webapp/WEB-INF/views/admin/course/list.jsp) responsiveness (JSP)
@@ -62,6 +63,7 @@ both creation and edition (JSP)
 to modal (JSP)
 - [ ] Create custom checked-exceptions for each relevant business rule
 - [ ] Add javadoc in all methods
+- [ ] Encrypt also emails in users and courses
 
 ### Extras
 - [ ] Create course controller Rest API

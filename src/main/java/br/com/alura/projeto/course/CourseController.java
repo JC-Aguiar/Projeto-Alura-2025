@@ -1,15 +1,21 @@
 package br.com.alura.projeto.course;
 
+import br.com.alura.projeto.category.domain.CategoryRepository;
+import br.com.alura.projeto.category.dto.CategoryDTO;
 import br.com.alura.projeto.course.domain.CourseMapper;
 import br.com.alura.projeto.course.domain.CourseService;
+import br.com.alura.projeto.course.domain.CourseStatusType;
 import br.com.alura.projeto.course.dto.InactivateCourseDTO;
 import br.com.alura.projeto.course.dto.NewCourseFormDTO;
 import br.com.alura.projeto.course.dto.SearchCourseDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -23,10 +29,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static java.util.Optional.ofNullable;
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Slf4j
@@ -36,6 +42,9 @@ public class CourseController {
 
     @Autowired
     private final CourseService courseService;
+
+    @Autowired
+    private final CategoryRepository categoryRepository;
 
     @Autowired
     private final CourseMapper courseMapper;
@@ -66,16 +75,24 @@ public class CourseController {
     @GetMapping("/admin/course/new")
     public String create(NewCourseFormDTO dto, Model model) {
         log.info("JSP request: creating new course.");
-        model.addAttribute(
-            "newCourseFormDTO",
-            Optional.ofNullable(dto).orElseGet(NewCourseFormDTO::new)
+        return sendToCourseForm(dto, null, model);
+    }
+
+    @GetMapping("/admin/course/edit/{id}")
+    public String update(@PathVariable("id") Long id, NewCourseFormDTO dto, Model model) {
+        log.info("JSP request: editing course id {}.", id);
+        var courseAndCategoryId = courseService.findCourseAndCategoryIdByCourseBy(id);
+        dto = courseMapper.toFormDTO(
+            courseAndCategoryId.getCourse(),
+            courseAndCategoryId.getCategoryId()
         );
-        return "admin/course/form";
+        return sendToCourseForm(dto, id, model);
     }
 
     @Transactional
-    @PostMapping("/admin/course/save")
+    @PostMapping("/admin/course/save/{id}")
     public String save(
+        @PathVariable(value = "id", required = false) Long id,
         @Valid NewCourseFormDTO dto,
         BindingResult result,
         Model model,
@@ -86,16 +103,15 @@ public class CourseController {
 
         Consumer<String> addError = text -> model.addAttribute("error", text);
 
-        if (result.hasErrors()) {
-            log.warn("Validation errors found for course: {}", result.getAllErrors());
-            model.addAttribute("newCourseFormDTO", dto);
-            return "admin/course/form";
-        }
         try {
-            var entity = courseMapper.toEntity(dto);
-            courseService.create(entity);
+            if (result.hasErrors()) throw new ValidationException(result.getAllErrors().toString());
+            var entity = courseMapper.toEntity(dto, id);
+            courseService.save(entity, dto.getCategoryId());
             redirectAttributes.addFlashAttribute("success", "Curso criado com sucesso!");
             return "redirect:/admin/courses";
+        }
+        catch (ValidationException e) {
+            log.warn("Validation errors found for course: {}", result.getAllErrors());
         }
         catch (IllegalArgumentException e) {
             log.error("Invalid input for course creation: {}", e.getMessage());
@@ -105,7 +121,25 @@ public class CourseController {
             log.error("Unexpected error during course creation: {}", e.getMessage(), e);
             addError.accept("Erro ao criar curso: " + e.getMessage());
         }
-        model.addAttribute("newCourseFormDTO", dto);
+        return sendToCourseForm(dto, id, model);
+    }
+
+    private String sendToCourseForm(
+        @NonNull NewCourseFormDTO dto,
+        @Nullable Long id,
+        @NonNull Model model) {
+
+        var categories = categoryRepository.findAll()
+            .stream()
+            .map(CategoryDTO::new)
+            .toList();
+        model.addAttribute("listCategoryDTO", categories);
+        model.addAttribute("courseStatusType", CourseStatusType.values());
+        model.addAttribute(
+            "newCourseFormDTO",
+            ofNullable(dto).orElseGet(NewCourseFormDTO::new)
+        );
+        model.addAttribute("id", id);
         return "admin/course/form";
     }
 
@@ -116,6 +150,7 @@ public class CourseController {
         @Autowired LocalValidatorFactoryBean validator,
         RedirectAttributes redirectAttributes) {
 
+        log.info("JSP request: inactivating course ode {}.", code);
         Consumer<String> addError = text -> redirectAttributes.addFlashAttribute("error", text);
         Consumer<String> addSuccess = text -> redirectAttributes.addFlashAttribute("success", text);
         try {
