@@ -131,7 +131,6 @@
 
     .mini-card {
         margin: 8px; 
-        width: calc(100% - (8px *2));
         height: 200px;
     }
 }

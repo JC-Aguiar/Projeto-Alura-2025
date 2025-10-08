@@ -26,7 +26,7 @@
         <jsp:include page="../../highlight-frame.jsp">
             <jsp:param name="title" value="Categorias Disponíveis"/>
             <jsp:param name="subtitle" value="Clique no card para acessar seu formulário."/>
-            <jsp:param name="frameCss" value="p-0 m-0"/>
+            <jsp:param name="frameCss" value="p-0 m-0 text-center"/>
         </jsp:include>
 
         <div class="mt-3">
