@@ -141,30 +141,32 @@
                                 <form:errors path="categoryId" cssClass="error"/>
                             </div>
                             <!-- Field: status -->
-                            <div>
-                                <div class="input-group input-group-sm">
-                                    <span 
-                                        id="course-status-label" 
-                                        class="input-group-text bg-dark text-white frame"
-                                    >
-                                        Status
-                                    </span>
-                                    <form:select 
-                                        path="status" 
-                                        id="course-status" 
-                                        cssClass="form-control bg-dark text-white frame"
-                                        required="true"
-                                    >
-                                        <form:option value="" label="Selecione um status"/>
-                                        <form:options 
-                                            items="${courseStatusType}" 
-                                            itemValue="name" 
-                                            itemLabel="name"
-                                        />
-                                    </form:select>
+                             <c:if test="${id != null}">
+                                <div>
+                                    <div class="input-group input-group-sm">
+                                        <span 
+                                            id="course-status-label" 
+                                            class="input-group-text bg-dark text-white frame"
+                                        >
+                                            Status
+                                        </span>
+                                        <form:select 
+                                            path="status" 
+                                            id="course-status" 
+                                            cssClass="form-control bg-dark text-white frame"
+                                            required="true"
+                                        >
+                                            <form:option value="" label="Selecione um status"/>
+                                            <form:options 
+                                                items="${courseStatusType}" 
+                                                itemValue="name" 
+                                                itemLabel="name"
+                                            />
+                                        </form:select>
+                                    </div>
+                                    <form:errors path="status" cssClass="error"/>
                                 </div>
-                                <form:errors path="status" cssClass="error"/>
-                            </div>
+                            </c:if>
                         </div>
 
                         <!-- Rright Side of the Form -->
