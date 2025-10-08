@@ -1,0 +1,108 @@
+body {
+    /* 
+    Figma Values: 
+        screen width: 1,440px
+        screen height: 843px
+    */
+    margin: 0;
+    font-family: 'Inter', 'Arial', sans-serif !important;
+    background: linear-gradient(135deg, var(--color-figma-bg-dark)) !important;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    /* padding: 2rem; */
+}
+
+.bg-dark {
+    background-color: var(--color-figma-bg-dark);
+}
+
+.light-sphere {
+    /*
+    Figma Values: 
+        width: 895.3836122475095;
+        height: 578.7187540657633;
+    */
+    width: 80vmin;
+    height: 80vmin;
+    position: fixed;
+    pointer-events: none;
+    z-index: -100;
+    filter: blur(50px);
+}
+
+.purple-light {
+    /*
+    Figma Values: 
+        top: 508px;
+        left: -595px;
+    */
+    top: 60.26vh;
+    left: -41.32vw;
+    opacity: 0.43;
+    transform: scale(1.547, 1) rotate(-29deg);
+    background-image: radial-gradient(
+        circle,
+        var(--color-figma-bg-purple) 0%,
+        transparent 100%
+    );
+}
+
+.top-lgiht {
+    /*
+    Figma Values: 
+        top: -137px;
+        left: 872px;
+    */
+    top: 5vh;
+    left: 60vw;
+    transform: scale(1.547, 1) rotate(-29deg);
+    opacity: 0.30;
+    background-image: radial-gradient(
+        circle,
+        var(--color-figma-bg-light) 0%,
+        transparent 100%
+    );
+}
+
+.light-sphere.inside {
+    width: 150%;
+    height: 150%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    opacity: 1;
+    transform: translate(-50%, 0%) scale(1.547, 1) rotate(-29deg);
+}
+
+@media (max-width: 768px) {
+    .light-sphere {
+        width: 60vmin;
+        height: 60vmin;
+        filter: blur(40px);
+    }
+
+    .top-light {
+        top: 0;
+        left: 40vw;
+    }
+
+    .top-light {
+        top: 25vh;
+        left: 50vw;
+    }
+}
+
+@media (max-width: 375px) {
+    .light-sphere {
+        width: 90vmin;
+        height: 90vmin;
+        filter: blur(30px);
+    }
+
+    .purple-light {
+        top: 80vh;
+    }
+}

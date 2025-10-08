@@ -11,13 +11,17 @@
 
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/login.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/background.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/highlight-frame.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/mini-card.css">
     <link rel="stylesheet" type="text/css" href="/assets/external-libs/bootstrap/css/bootstrap.min.css">
     <script src="/assets/external-libs/bootstrap/js/bootstrap.bundle.js"></script>
     >
 </head>
 <body>
-    <div class="light-sphere top-lgiht"></div>
-    <div class="light-sphere purple-light"></div>
+    
+    <!-- Background -->
+    <jsp:include page="background.jsp" />
 
     <div class="container-md content-container p-md-3 pt-md-5">
         <div class="row g-2 g-lg-5">

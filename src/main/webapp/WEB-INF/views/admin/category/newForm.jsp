@@ -14,161 +14,178 @@
     <title>Cadastrar nova Categoria</title>
     
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/list-catebories.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/adminForms.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/background.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/highlight-frame.css">
     <link rel="stylesheet" type="text/css" href="/assets/external-libs/bootstrap/css/bootstrap.min.css">
     <script src="/assets/external-libs/bootstrap/js/bootstrap.bundle.js"></script>
-    <style>
-        .form-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 1rem;
-        }
-
-        .input-group span {
-            width: 90px;
-        }
-    </style>
 </head>
 
 <body>
-<div class="container-md content-container p-md-3">
-
-    <div class="light-sphere top-lgiht"></div>
-    <div class="light-sphere purple-light"></div>
-
-    <jsp:include page="../../highlight-frame.jsp">
-        <jsp:param name="title" value="${id != null ? 'Editar Categoria' : 'Cadastrar Nova Categoria'}"/>
-        <jsp:param name="frameCss" value="p-0 m-0"/>
-    </jsp:include>
     
-    <div class="mt-3">
+    <!-- Background -->
+    <jsp:include page="../../background.jsp" />
 
-        <c:choose>
-            <c:when test="${empty id}">
-                <c:set var="formActionUrl" value="/admin/category/save" />
-            </c:when>
-            <c:otherwise>
-                <c:set var="formActionUrl" value="/admin/category/save/${id}" />
-            </c:otherwise>
-        </c:choose>
+    <!-- Main Content -->
+    <div class="container-md content-container p-0 p-md-3">
 
-        <form:form 
-            modelAttribute="newCategoryFormDTO" 
-            cssClass="form-floating" 
-            action="${formActionUrl}"
-            method="post"
-        >
-            <div class="responsive-text h-100 frame rounded mt-3 py-4 px-3 px-lg-4">
-                <div class="form-container form-group pb-5 pb-lg-3">
-                    <div class="row g-3">
-                        <!-- Field: name -->
-                         <div>
-                            <div class="input-group input-group-sm">
-                                <span 
-                                    id="newCategory-name-label" 
-                                    class="input-group-text bg-dark text-white frame"
-                                >
-                                    Nome
-                                </span>
-                                <form:input 
-                                    path="name" 
-                                    id="newCategory-name" 
-                                    aria-describedby="newCategory-name"
-                                    cssClass="form-control frame bg-dark text-white" 
-                                    required="required"
-                                />
+        <!-- Content Header -->
+        <jsp:include page="../../highlight-frame.jsp">
+            <jsp:param name="title" value="${id != null ? 'Editar Categoria' : 'Cadastrar Nova Categoria'}"/>
+            <jsp:param name="frameCss" value="p-0"/>
+        </jsp:include>
+        
+        <section class="mt-3">
+
+            <!-- Defining Endpoint URI -->
+            <c:choose>
+                <c:when test="${empty id}">
+                    <c:set var="formActionUrl" value="/admin/category/save" />
+                </c:when>
+                <c:otherwise>
+                    <c:set var="formActionUrl" value="/admin/category/save/${id}" />
+                </c:otherwise>
+            </c:choose>
+
+            <!-- Form -->
+            <form:form 
+                modelAttribute="newCategoryFormDTO" 
+                cssClass="form-horizontal panel-body" 
+                action="${formActionUrl}"
+                method="post"
+            >
+                <div class="h-100 frame rounded mt-3 py-2 py-md-4 px-1 px-md-3 px-lg-4">
+                    <div class="form-container form-group pb-0 pb-lg-3">
+                        <!-- Left Side of the Form -->
+                        <div class="row g-3 responsive-font">
+                            <!-- Field: name -->
+                            <div>
+                                <div class="input-group input-group-sm">
+                                    <span 
+                                        id="newCategory-name-label" 
+                                        class="input-group-text bg-dark text-white frame"
+                                    >
+                                        Nome
+                                    </span>
+                                    <form:input 
+                                        path="name" 
+                                        id="newCategory-name" 
+                                        aria-describedby="newCategory-name"
+                                        cssClass="form-control frame bg-dark text-white" 
+                                        required="required"
+                                    />
+                                </div>
+                                <form:errors path="name" cssClass="error"/>
                             </div>
-                            <form:errors path="name" cssClass="error"/>
-                        </div>
-                        <!-- Field: code -->
-                         <div>
-                            <div class="input-group input-group-sm">
-                                <span 
-                                    id="newCategory-code-label" 
-                                    class="input-group-text bg-dark text-white frame"
-                                >
-                                    Código
-                                </span>
-                                <form:input 
-                                    path="code" 
-                                    id="newCategory-code" 
-                                    aria-describedby="newCategory-code" 
-                                    onkeyup="updateCategoryImage()"
-                                    cssClass="form-control frame bg-dark text-white" 
-                                    required="required"
-                                />
+                            <!-- Field: code -->
+                            <div>
+                                <div class="input-group input-group-sm">
+                                    <span 
+                                        id="newCategory-code-label" 
+                                        class="input-group-text bg-dark text-white frame"
+                                    >
+                                        Código
+                                    </span>
+                                    <form:input 
+                                        path="code" 
+                                        id="newCategory-code" 
+                                        aria-describedby="newCategory-code" 
+                                        onkeyup="updateCategoryImage()"
+                                        cssClass="form-control frame bg-dark text-white" 
+                                        required="required"
+                                    />
+                                </div>
+                                <form:errors path="code" cssClass="error"/>
                             </div>
-                            <form:errors path="code" cssClass="error"/>
-                        </div>
-                        <!-- Field: order -->
-                        <div>
-                            <div class="input-group input-group-sm">
-                                <span 
-                                    id="newCategory-order-label" 
-                                    class="input-group-text bg-dark text-white frame"
-                                >
-                                    Ordem
-                                </span>
-                                <form:input 
-                                    path="order" 
-                                    type="number" 
-                                    min="1" 
-                                    id="newCategory-order" 
-                                    aria-describedby="newCategory-order" 
-                                    cssClass="form-control" 
-                                    required="required"
-                                />
+                            <!-- Field: order -->
+                            <div>
+                                <div class="input-group input-group-sm">
+                                    <span 
+                                        id="newCategory-order-label" 
+                                        class="input-group-text bg-dark text-white frame"
+                                    >
+                                        Ordem
+                                    </span>
+                                    <form:input 
+                                        path="order" 
+                                        type="number" 
+                                        min="1" 
+                                        id="newCategory-order" 
+                                        aria-describedby="newCategory-order" 
+                                        cssClass="form-control" 
+                                        required="required"
+                                    />
+                                </div>
+                                <form:errors path="order" cssClass="error"/>
                             </div>
-                            <form:errors path="order" cssClass="error"/>
-                        </div>
-                        <!-- Field: color -->
-                        <div>
-                            <div class="input-group input-group-sm h-100">
-                                <span 
-                                    id="newCategory-color-label" 
-                                    class="input-group-text bg-dark text-white frame "
-                                >
-                                    Cor
-                                </span>
-                                <form:input 
-                                    path="color" 
-                                    type="color"
-                                    id="newCategory-color" 
-                                    aria-describedby="newCategory-color" 
-                                    cssClass="form-control form-control-color bg-transparent frame m-0 p-0 h-100" 
-                                    required="required"
-                                />
+                            <!-- Field: color -->
+                            <div>
+                                <div class="input-group input-group-sm h-100">
+                                    <span 
+                                        id="newCategory-color-label" 
+                                        class="input-group-text bg-dark text-white frame "
+                                    >
+                                        Cor
+                                    </span>
+                                    <form:input 
+                                        path="color" 
+                                        type="color"
+                                        id="newCategory-color" 
+                                        aria-describedby="newCategory-color" 
+                                        cssClass="form-control form-control-color bg-transparent frame m-0 p-0 h-100" 
+                                        required="required"
+                                    />
+                                </div>
+                                <form:errors path="color" cssClass="error"/>
                             </div>
-                            <form:errors path="color" cssClass="error"/>
                         </div>
+
+                        <!-- Rright Side of the Form -->
+                        <div class="responsive-font" >
+                            <!-- Code Icon -->
+                             <div class="mb-3 p-3 frame rounded-3 bg-dark">
+                                <span class="text-white m-0 p-0 opacity-50">Logo</span>
+                                <img 
+                                    class="w-100 h-100 img-fluid p-3"
+                                    id="categoryImage" 
+                                    src="../../assets/svg/ICON-CATEGORY-DEFAULT.svg" 
+                                    alt="Ícone da Categoria"
+                                    style="width: 100%; max-height: 100px;"
+                                >
+                            </div>
+                            <div class="row row-cols-1 row-cols-md-2 g-2">
+                                <div class="col">
+                                    <input 
+                                        type="submit"
+                                        class="d-block w-100 btn btn-primary rounded-pill py-1 submit" 
+                                        value="Salvar"
+                                    />
+                                </div>
+                                <div>
+                                    <button 
+                                        type="button"
+                                        class="col w-100 btn btn-secondary rounded-pill py-1"
+                                        onclick="window.location.href='/admin/categories'" 
+                                    >
+                                        Voltar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-
-                    <div class="mx-3 p-3 frame rounded-3 bg-dark" style="max-height: 230px;">
-                        <!-- Code Icon -->
-                        <img 
-                            class="w-100 h-100 img-fluid p-3"
-                            id="categoryImage" 
-                            src="../../assets/svg/ICON-CATEGORY-DEFAULT.svg" 
-                            alt="Ícone da Categoria"
-                            style="width: 100%; height: 100%;"
-                        >
-                        <input 
-                            type="submit"
-                            class="d-block w-100 btn btn-primary py-1 submit" 
-                            value="Salvar"
-                        />
-                    </div>
-
                 </div>
-            </div>
-        </form:form>
-    </div>
-</div>
+            </form:form>
+        
+        </div>
 
-<jsp:include page="../../modal.jsp">
-    <jsp:param name="title" value="Problema na requisição!"/>
-    <jsp:param name="message" value="${error}"/>
-</jsp:include>
+    </div>
+
+    <!-- Info Message Toast -->
+    <jsp:include page="../../toast.jsp">
+        <jsp:param name="title" value="Problema na requisição!"/>
+        <jsp:param name="message" value="${error}"/>
+    </jsp:include>
 
 </body>
 

@@ -13,32 +13,24 @@
 
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/list-catebories.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/background.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/highlight-frame.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/mini-card.css">
     <link rel="stylesheet" type="text/css" href="/assets/external-libs/bootstrap/css/bootstrap.min.css">
     <script src="/assets/external-libs/bootstrap/js/bootstrap.bundle.js"></script>
 </head>
 
 <body>
+<div class="container-md content-container p-md-3">
 
-    <!-- Background -->
-    <jsp:include page="../../background.jsp" />
+    <div class="light-sphere top-lgiht"></div>
+    <div class="light-sphere purple-light"></div>
 
-    <!-- Main Content -->
-    <div class="container-md content-container p-md-3">
-
-        <!-- Content Header -->
         <jsp:include page="../../highlight-frame.jsp">
             <jsp:param name="title" value="Categorias Disponíveis"/>
             <jsp:param name="subtitle" value="Clique no card para acessar seu formulário."/>
-            <jsp:param name="frameCss" value="p-0 text-center"/>
+            <jsp:param name="frameCss" value="p-0 m-0 text-center"/>
         </jsp:include>
 
-        <!-- Categories Result -->
         <div class="mt-3">
 
-            <!-- Not Found Message -->
             <c:if test="${empty categories or categories == null}">
                 <div class="row align-items-center text-white text-center w-100 p-2">
                     <h4 class="py-3 m-0">
@@ -46,8 +38,6 @@
                     </h4>
                 </div>
             </c:if>
-            
-            <!-- Categories List -->
             <c:if test="${not empty categories and categories != null}">
                 <div class="grid p-2">
                     <c:forEach items="${categories}" var="category">
@@ -72,16 +62,8 @@
                     </jsp:include>
                 </div>
             </c:if>
-
         </div>
-
     </div>
-
-    <jsp:include page="../../toast.jsp">
-        <jsp:param name="title" value="Problema na requisição!"/>
-        <jsp:param name="message" value="${error}"/>
-    </jsp:include>
-
 </body>
 
 <script>

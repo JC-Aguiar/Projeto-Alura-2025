@@ -15,66 +15,31 @@
     
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/list-courses.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/background.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/highlight-frame.css">
     <link rel="stylesheet" type="text/css" href="/assets/external-libs/bootstrap/css/bootstrap.min.css">
     <script src="/assets/external-libs/bootstrap/js/bootstrap.bundle.js"></script>
 </head>
 
 <body>
-    <div class="light-sphere top-lgiht"></div>
-    <div class="light-sphere purple-light"></div>
 
-    <c:if test="${not empty erro}">
-        <div class="fixed-top bagde bagde-danger">${erro}</div>
-    </c:if>
-    <c:if test="${not empty success}">
-        <div class="success bagde bagde-success">${success}</div>
-    </c:if>
+    <!-- Background -->
+    <jsp:include page="../../background.jsp" />
 
-    <div class="fixed-top d-md-none m-0 p-0">
-        <div class="highlight frame p-1 m-1 banner">
-            <div class="light-sphere purple-light inside"></div>
-            
-            <div class="row row-cols-1 row-cols-sm-2 h-100 align-items-center m-0 p-0">
-                <div class="col text-white small">
-                    <h5 class="lh-1 m-0 p-0">
-                        Cursos
-                    </h5>
-                </div>
-                <div class="col d-flex align-items-center px-5 px-sm-2 mt-1 mt-sm-0">
-                    <button type="button" 
-                        class="rounded rounded-pill py-0 py-sm-2" 
-                        onclick="window.location.href='/admin/course/new'"
-                    >
-                        CADASTRAR NOVO
-                    </button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
+    <!-- Main Content -->
     <div class="container-md content-container p-md-3">
-        
-        <div class="card highlight frame d-none d-md-block">
-            <div class="light-sphere purple-light inside"></div>
-            <div class="card-body px-center">
-                <div class="highlight-body text-white">
-                    <h1 class="mb-0">
-                        Cursos
-                    </h1>
-                </div>
-                <button type="button" 
-                    class="rounded rounded-pill py-2 px-5" 
-                    onclick="window.location.href='/admin/course/new'"
-                >
-                    CADASTRAR NOVO
-                </button>
-            </div>
-        </div>
 
+        <!-- Content Header -->
+        <jsp:include page="../../highlight-frame.jsp">
+            <jsp:param name="title" value="Cursos Disponíveis"/>
+            <jsp:param name="subtitle" value="Clique no card para acessar seu formulário."/>
+            <jsp:param name="frameCss" value="p-0 text-center"/>
+        </jsp:include>
+        
+        <!-- Categories Result -->  
         <div class="frame rounded mt-3">
 
+            <!-- Not Found Message -->
             <c:if test="${empty courses or courses == null}">
                 <div class="row align-items-center text-white text-center w-100 p-2">
                     <h4 class="py-3 m-0">
@@ -82,6 +47,8 @@
                     </h4>
                 </div>
             </c:if>
+
+            <!-- Courses Table -->
             <c:if test="${not empty courses and courses != null}">
                 <table class="table table-transparent">
                     <thead>
@@ -98,8 +65,8 @@
                     <tbody>
                         <c:forEach items="${courses}" var="course">
                             <tr class="small">
-                                <!-- Edition Icon -->
                                 <td>
+                                    <!-- Edition Icon -->
                                     <a class="btn btn-outline-primary bg-transparent m-0 p-0 border-0 d-flex justify-content-center" 
                                         href="/admin/course/edit/${course.id()}"
                                     >
@@ -150,6 +117,30 @@
                     </tbody>
                 </table>
             </c:if>
+
         </div>
+
     </div>
+
+    <jsp:include page="../../toast.jsp">
+        <jsp:param name="title" value="Problema na requisição!"/>
+        <jsp:param name="message" value="${error}"/>
+    </jsp:include>
+
 <body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        toastFeedback();
+    });
+
+    function toastFeedback() {
+        var toastEl = document.getElementById('liveToast');
+        if (toastEl) {
+            var toast = new bootstrap.Toast(toastEl, {
+                delay: 7000
+            });
+            toast.show();
+        }
+    }
+</script>
