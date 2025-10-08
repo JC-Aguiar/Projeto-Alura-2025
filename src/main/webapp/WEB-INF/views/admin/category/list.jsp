@@ -64,5 +64,65 @@
             </c:if>
         </div>
     </div>
-
 </body>
+
+<script>
+    const CONTEXT_PATH = '${pageContext.request.contextPath}';
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCategoryImage(); 
+        toastFeedback();
+    });
+
+    function toastFeedback() {
+        var toastEl = document.getElementById('liveToast');
+        if (toastEl) {
+            var toast = new bootstrap.Toast(toastEl, {
+                delay: 7000
+            });
+            toast.show();
+        }
+    }
+
+    async function updateCategoryImage() {
+        const defaultImgPath = CONTEXT_PATH  + '/assets/svg/ICON-CATEGORY-DEFAULT.svg';
+        const inputElement = document.getElementById('newCategory-code');
+        const code = inputElement ? inputElement.value : ''; 
+        console.log('code: ' + code);
+        
+        const imgElement = document.getElementById('categoryImage');
+        const newImageUrl = CONTEXT_PATH  + '/assets/svg/ICON-CATEGORY-' + code + '.svg';
+        console.log(newImageUrl);
+
+        try {
+            const response = await fetch(newImageUrl, { 
+                method: 'HEAD' 
+            });
+            if (response.ok) imgElement.src = newImageUrl;
+            else imgElement.src = defaultImgPath;
+            imgElement.onerror = null;
+        } 
+        catch (error) {
+            console.error("Erro ao verificar o recurso de imagem:", error);
+            imgElement.src = defaultImgPath;
+        }
+    }
+
+    function applyColorEffect() {
+        const colorInputElement = document.getElementById('newCategory-color');
+        if (!colorInputElement) {
+            console.warn("Ellement #newCategory-color not found.");
+            return;
+        }
+        const hexColor = colorInputElement.value;
+        const imgElement = document.getElementById('newCategory-name');
+        const hexPattern = /^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/;
+
+        if (hexPattern.test(hexColor)) {
+            imgElement.style.color = hexColor;
+        } 
+        else {
+            console.warn('Invalid HEX value: ' +  hexColor);
+        }
+    }
+</script>
