@@ -1,7 +1,7 @@
 package br.com.alura.projeto.course.controller;
 
 import br.com.alura.projeto.category.domain.CategoryRepository;
-import br.com.alura.projeto.course.CourseController;
+import br.com.alura.projeto.course.domain.CourseController;
 import br.com.alura.projeto.course.domain.CourseMapper;
 import br.com.alura.projeto.course.domain.CourseRepository;
 import br.com.alura.projeto.course.domain.CourseService;

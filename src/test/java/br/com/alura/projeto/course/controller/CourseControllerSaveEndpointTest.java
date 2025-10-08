@@ -2,7 +2,7 @@ package br.com.alura.projeto.course.controller;
 
 import br.com.alura.projeto.category.domain.Category;
 import br.com.alura.projeto.category.domain.CategoryRepository;
-import br.com.alura.projeto.course.CourseController;
+import br.com.alura.projeto.course.domain.CourseController;
 import br.com.alura.projeto.course.domain.Course;
 import br.com.alura.projeto.course.domain.CourseMapper;
 import br.com.alura.projeto.course.domain.CourseRepository;
@@ -44,7 +44,7 @@ class CourseControllerSaveEndpointTest {
     @Autowired
     private CourseMapper courseMapper;
 
-    public static final String URI_SAVE_COURSE_PAGE = "/admin/course/save";
+    public static final String URI_SAVE_COURSE_PAGE = "/admin/course/save/1";
 
     @Test
     void testSave__valid_fields__saves_course_and_redirects() throws Exception {
@@ -85,7 +85,7 @@ class CourseControllerSaveEndpointTest {
             .andExpectAll(
                 status().isOk(),
                 model().attributeExists("newCourseFormDTO"),
-                model().attributeExists("courses"),
+                model().attributeExists("listCategoryDTO"),
                 model().attribute("error", "The category related to this course is missing. Please enter a valid value.")
             );
         verify(categoryRepository, times(1)).findById(anyLong());
@@ -107,12 +107,12 @@ class CourseControllerSaveEndpointTest {
             .andExpectAll(
                 status().isOk(),
                 model().attributeExists("newCourseFormDTO"),
+                model().attributeExists("listCategoryDTO"),
                 model().attributeHasErrors("newCourseFormDTO"),
                 model().attributeHasFieldErrors("newCourseFormDTO", "name"),
                 model().attributeHasFieldErrors("newCourseFormDTO", "code"),
                 model().attributeHasFieldErrors("newCourseFormDTO", "description"),
                 model().attributeHasFieldErrors("newCourseFormDTO", "instructorEmail"),
-                model().attributeHasFieldErrors("newCourseFormDTO", "status"),
                 model().attributeHasFieldErrors("newCourseFormDTO", "categoryId")
             );
         verify(courseRepository, never()).save(any(Course.class));
@@ -135,6 +135,7 @@ class CourseControllerSaveEndpointTest {
                 status().isOk(),
                 view().name("admin/course/form"),
                 model().attributeExists("newCourseFormDTO"),
+                model().attributeExists("listCategoryDTO"),
                 model().attribute("error", "Invalid course code")
             );
     }
@@ -156,6 +157,7 @@ class CourseControllerSaveEndpointTest {
                 status().isOk(),
                 view().name("admin/course/form"),
                 model().attributeExists("newCourseFormDTO"),
+                model().attributeExists("listCategoryDTO"),
                 model().attribute("error", "Erro ao criar curso: Database error")
             );
     }
