@@ -3,21 +3,27 @@ package br.com.alura.projeto.category.dto;
 import br.com.alura.projeto.category.domain.Category;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
-public class NewCategoryForm {
+public class NewCategoryFormDTO {
 
     @NotBlank
+    @Length(min= 4, max = 50)
     private String name;
 
     @NotBlank
-    @Length(min = 4, max = 10)
+    @Length(min = 4, max = 50)
     private String code;
 
     @Min(1)
+    @Length(min = 4, max = 50)
     private int order;
 
     @NotBlank
+    @Pattern(
+        regexp = "^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$",
+        message = "Invalid HEX color value")
     private String color;
 
     public Category toModel() {
