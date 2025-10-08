@@ -30,4 +30,8 @@ public class ErrorItemDTO {
     public String getMessage() {
         return message;
     }
+
+    public static ErrorItemDTO systemError() {
+        return new ErrorItemDTO("system", "Erro inesperado no sistema");
+    }
 }
