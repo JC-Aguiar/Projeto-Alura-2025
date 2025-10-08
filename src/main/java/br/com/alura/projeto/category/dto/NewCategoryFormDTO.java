@@ -6,8 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewCategoryFormDTO {

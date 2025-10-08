@@ -56,14 +56,15 @@ to edit a category (JSP)
 - [X] Rename and improve [newForm.jsp](src/main/webapp/WEB-INF/views/admin/category/newForm.jsp) to serve as 
 both creation and edition (JSP)
 - [X] Improve course's status to be able to activate and inactivate (also in the edition page)  
-- [ ] Implement student registration logic in the [RegistrationController](src/main/java/br/com/alura/projeto/registration/RegistrationController.java)
+- [X] Implement student registration logic in the [RegistrationController](src/main/java/br/com/alura/projeto/registration/RegistrationController.java)
 - [ ] Implement registration report logic in the [RegistrationController](src/main/java/br/com/alura/projeto/registration/RegistrationController.java)
-- [ ] Fix [login.jsp](src/main/webapp/WEB-INF/views/admin/course/list.jsp) responsiveness (JSP)
+- [X] Fix [login.jsp](src/main/webapp/WEB-INF/views/admin/course/list.jsp) responsiveness (JSP)
 - [ ] Change inactivation option in [login.jsp](src/main/webapp/WEB-INF/views/admin/course/list.jsp), from dropdown 
 to modal (JSP)
 - [ ] Create custom checked-exceptions for each relevant business rule
 - [ ] Add javadoc in all methods
 - [ ] Encrypt also emails in users and courses
+- [ ] Translate all response messages to portuguese
 
 ### Extras
 - [ ] Create course controller Rest API
