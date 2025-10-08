@@ -42,9 +42,9 @@
                             <jsp:param name="subtitle" value="Categoria"/>
                             <jsp:param name="id" value="${category.code()}"/>
                             <jsp:param name="img" value="../../assets/svg/ICON-CATEGORY-${category.code()}.svg"/>
-                            <jsp:param name="name" value="${category.name()}"/>
+                            <jsp:param name="title" value="${category.name()}"/>
                             <jsp:param name="color" value="${category.color()}"/>
-                            <jsp:param name="courses" value=" "/>
+                            <jsp:param name="description" value=" "/>
                             <jsp:param name="onClickUrl" value="/admin/category/edit/${category.id()}"/>
                         </jsp:include>
                     </c:forEach>
@@ -52,9 +52,9 @@
                         <jsp:param name="subtitle" value=""/>
                         <jsp:param name="id" value="CREATE-NEW-ONE"/>
                         <jsp:param name="img" value="../../assets/svg/ICON-CATEGORY-CREATE-NEW-ONE.svg"/>
-                        <jsp:param name="name" value="  Criar Nova Categoria"/>
+                        <jsp:param name="title" value="  Criar Nova Categoria"/>
                         <jsp:param name="color" value="#FFFFFF"/>
-                        <jsp:param name="courses" value=" "/>
+                        <jsp:param name="description" value=" "/>
                         <jsp:param name="onClickUrl" value="/admin/category/new"/>
                     </jsp:include>
                 </div>

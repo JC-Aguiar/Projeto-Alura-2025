@@ -36,7 +36,7 @@
     margin: 0px 0px 4px 0px;
 }
 
-.mini-card-category {
+.mini-card-title {
     font-weight: 700;
     font-style: Bold;
     font-size: 13px;
@@ -45,7 +45,7 @@
     text-transform: uppercase;
 }
 
-.mini-card-courses {
+.mini-card-description {
     font-weight: 100;
     font-style: normal;
     font-size: clamp(10px, 5vw, 12px);

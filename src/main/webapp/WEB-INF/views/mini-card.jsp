@@ -3,9 +3,9 @@
 <c:set var="subtitle" value="${param.subtitle}" />
 <c:set var="id" value="${param.id}" />
 <c:set var="img" value="${param.img}" />
-<c:set var="name" value="${param.name}" />
+<c:set var="title" value="${param.title}" />
 <c:set var="color" value="${param.color}" />
-<c:set var="courses" value="${param.courses}" />
+<c:set var="description" value="${param.description}" />
 <c:set var="url" value="${param.onClickUrl}" />
 
 <div class="d-flex justify-content-center">
@@ -17,9 +17,9 @@
                 <img class="mb-2" src="${img}">
                 <div style="color: ${color}">
                     <p class="mini-card-subtitle"><small>${subtitle}</small></p>
-                    <p class="mini-card-category">${name}</p>
+                    <p class="mini-card-title">${title}</p>
                 </div>
-                <p class="mini-card-courses">${courses}</p>
+                <p class="mini-card-description">${description}</p>
             </div>
 
     <c:if test="${url != null}">
