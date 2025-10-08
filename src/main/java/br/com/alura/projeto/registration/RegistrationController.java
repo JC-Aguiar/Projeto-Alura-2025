@@ -1,27 +1,48 @@
 package br.com.alura.projeto.registration;
 
+import br.com.alura.projeto.exception.ServiceException;
+import br.com.alura.projeto.registration.domain.RegistrationService;
+import br.com.alura.projeto.util.ErrorItemDTO;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.*;
+
+@Slf4j
+@Data
 @RestController
+@RequestMapping("/api/registration")
 public class RegistrationController {
 
-    @PostMapping("/registration/new")
-    public ResponseEntity createCourse(@Valid @RequestBody NewRegistrationDTO newRegistration) {
-        // TODO: Implementar a Questão 5 - Criação de Matrículas aqui...
+    @Autowired
+    private RegistrationService registrationService;
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @PostMapping("/new")
+    public ResponseEntity createCourse(@Valid @RequestBody NewRegistrationDTO dto) {
+        try {
+            var studentEmail = dto.getStudentEmail();
+            var courseCode = dto.getCourseCode();
+            registrationService.registry(studentEmail, courseCode);
+            return ResponseEntity.status(CREATED).build();
+        }
+        catch (ServiceException e) {
+            log.warn(e.toString());
+            return ResponseEntity.status(BAD_REQUEST).body(e.toDTO());
+        }
+        catch (Exception e) {
+            log.error(e.toString());
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(ErrorItemDTO.systemError());
+        }
     }
 
-    @GetMapping("/registration/report")
+    @GetMapping("/report")
     public ResponseEntity<List<RegistrationReportItem>> report() {
         List<RegistrationReportItem> items = new ArrayList<>();
 
@@ -29,27 +50,27 @@ public class RegistrationController {
 
         // Dados fictícios abaixo que devem ser substituídos
         items.add(new RegistrationReportItem(
-                "Java para Iniciantes",
-                "java",
-                "Charles",
-                "charles@alura.com.br",
-                10L
+            "Java para Iniciantes",
+            "java",
+            "Charles",
+            "charles@alura.com.br",
+            10L
         ));
 
         items.add(new RegistrationReportItem(
-                "Spring para Iniciantes",
-                "spring",
-                "Charles",
-                "charles@alura.com.br",
-                9L
+            "Spring para Iniciantes",
+            "spring",
+            "Charles",
+            "charles@alura.com.br",
+            9L
         ));
 
         items.add(new RegistrationReportItem(
-                "Maven para Avançados",
-                "maven",
-                "Charles",
-                "charles@alura.com.br",
-                9L
+            "Maven para Avançados",
+            "maven",
+            "Charles",
+            "charles@alura.com.br",
+            9L
         ));
 
         return ResponseEntity.ok(items);
