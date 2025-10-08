@@ -4,8 +4,12 @@ import br.com.alura.projeto.category.domain.Category;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class NewCategoryFormDTO {
 
     @NotBlank
@@ -14,6 +18,10 @@ public class NewCategoryFormDTO {
 
     @NotBlank
     @Length(min = 4, max = 50)
+    @Pattern(
+        regexp = "^[a-zA-Z]+(-[a-zA-Z]+)*$",
+        message = "O código do curso deve ser textual, sem espaços, números ou caracteres especiais, podendo ser separado por hífen (ex.: back-end-java)"
+    )
     private String code;
 
     @Min(1)
