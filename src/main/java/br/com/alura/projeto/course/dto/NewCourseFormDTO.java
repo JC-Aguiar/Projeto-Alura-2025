@@ -20,7 +20,10 @@ public class NewCourseFormDTO {
 
     @NotBlank
     @Length(min = 4, max = 10)
-    @Pattern(regexp = "^[a-zA-Z]+(-[a-zA-Z]+)*$")
+    @Pattern(
+        regexp = "^[a-zA-Z]+(-[a-zA-Z]+)*$",
+        message = "O código do curso deve ser textual, sem espaços, números ou caracteres especiais, podendo ser separado por hífen (ex.: spring-boot-avancado)"
+    )
     private String code;
 
     @Length(max = 300)
