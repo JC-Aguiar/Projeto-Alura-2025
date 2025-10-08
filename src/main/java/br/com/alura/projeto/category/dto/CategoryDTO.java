@@ -6,4 +6,14 @@ public record CategoryDTO(Long id, String name, String code, String color, int o
     public CategoryDTO(Category category) {
         this(category.getId(), category.getName(), category.getCode(), category.getColor(), category.getOrder());
     }
+
+    public String getResume() {
+        return """
+            ID: %d
+            CODE: %s
+            COLOR: %s
+            ORDER: %d
+            """
+            .formatted(id, code, color, order);
+    }
 }
