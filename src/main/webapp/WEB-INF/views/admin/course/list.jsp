@@ -34,6 +34,8 @@
             <jsp:param name="title" value="Cursos Disponíveis"/>
             <jsp:param name="subtitle" value="Clique no card para acessar seu formulário."/>
             <jsp:param name="frameCss" value="p-0 text-center"/>
+            <jsp:param name="buttonText" value="CADASTRAR NOVO"/>
+            <jsp:param name="onClickUrl" value="/admin/course/new"/>
         </jsp:include>
         
         <!-- Categories Result -->  
