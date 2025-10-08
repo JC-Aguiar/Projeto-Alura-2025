@@ -91,6 +91,16 @@ public class CourseController {
     }
 
     @Transactional
+    @PostMapping("/admin/course/save")
+    public String save(
+        @Valid NewCourseFormDTO dto,
+        BindingResult result,
+        Model model,
+        RedirectAttributes redirectAttributes) {
+        return save(null, dto, result, model, redirectAttributes);
+    }
+
+    @Transactional
     @PostMapping("/admin/course/save/{id}")
     public String save(
         @PathVariable(value = "id", required = false) Long id,
