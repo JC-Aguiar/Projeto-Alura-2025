@@ -11,6 +11,14 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     boolean existsByCode(String code);
 
     @Query(nativeQuery = true, value = """
+        select  count(1)
+        from    Category
+        where   code = :code
+        and     id != :id
+        """)
+    int countUniqueCodePerId(String code, Long id);
+
+    @Query(nativeQuery = true, value = """
         with Records as (
             select  Category.name           as category,
                     Category.code           as categoryCode,
@@ -29,6 +37,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
         select  *
         from    Records
         where   Records.rowNum <= :totalCoursesPerCategory
-    """)
+        """)
     List<SimpleCategoryAndCourse> findSomeActiveCoursesWithCategory(int totalCoursesPerCategory);
 }
