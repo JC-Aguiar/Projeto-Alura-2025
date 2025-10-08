@@ -79,7 +79,7 @@
 <div class="highlight frame ${frameCss}">
     <div class="light-sphere purple-light inside"></div>
 
-    <div class="py-0 py-lg-4 px-0 px-lg-3">
+    <div class="py-0 py-lg-4 px-0 px-lg-3 h-100">
         <div class="row justify-content-center h-100 align-items-center m-0 p-0">
             
                 <div class="col-12 col-sm-6 col-md-12 row align-items-center text-white small">

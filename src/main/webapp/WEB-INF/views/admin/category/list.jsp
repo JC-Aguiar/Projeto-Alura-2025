@@ -20,6 +20,9 @@
 <body>
 <div class="container-md content-container p-md-3">
 
+    <div class="light-sphere top-lgiht"></div>
+    <div class="light-sphere purple-light"></div>
+
         <jsp:include page="../../highlight-frame.jsp">
             <jsp:param name="title" value="Categorias Disponíveis"/>
             <jsp:param name="subtitle" value="Clique no card para acessar seu formulário."/>
