@@ -25,7 +25,6 @@ public class NewCategoryFormDTO {
     private String code;
 
     @Min(1)
-    @Length(min = 4, max = 50)
     private int order;
 
     @NotBlank
