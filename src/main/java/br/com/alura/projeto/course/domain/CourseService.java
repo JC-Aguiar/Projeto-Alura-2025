@@ -1,7 +1,7 @@
 package br.com.alura.projeto.course.domain;
 
 import br.com.alura.projeto.category.domain.CategoryRepository;
-import br.com.alura.projeto.course.dto.CourseAndCategoryId;
+import br.com.alura.projeto.course.projection.CourseAndCategoryId;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -29,8 +29,12 @@ public class CourseService {
     }
 
 
-    public CourseAndCategoryId findCourseAndCategoryIdByCourseBy(Long id) {
-        return courseRepository.findCourseAndCategoryIdByCourseBy(id);
+    public Optional<CourseAndCategoryId> findCourseAndCategoryIdByCourseBy(Long id) {
+        var projection = courseRepository.findCourseAndCategoryIdByCourseBy(id);
+        var isValidProjection = projection.getCourse() != null && projection.getCategoryId() != null;
+        return Optional.ofNullable(
+            isValidProjection ? projection : null
+        );
     }
 
     public Course save(Course course, Long categoryId) {

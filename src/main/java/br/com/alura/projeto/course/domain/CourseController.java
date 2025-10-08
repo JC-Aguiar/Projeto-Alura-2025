@@ -76,13 +76,17 @@ public class CourseController {
     }
 
     @GetMapping("/admin/course/edit/{id}")
-    public String update(@PathVariable("id") Long id, NewCourseFormDTO dto, Model model) {
+    public String update(@PathVariable("id") Long id, Model model) {
         log.info("JSP request: editing course id {}.", id);
-        var courseAndCategoryId = courseService.findCourseAndCategoryIdByCourseBy(id);
-        dto = courseMapper.toFormDTO(
-            courseAndCategoryId.getCourse(),
-            courseAndCategoryId.getCategoryId()
-        );
+        var dto = courseService.findCourseAndCategoryIdByCourseBy(id)
+            .map(info -> courseMapper.toFormDTO(
+                info.getCourse(),
+                info.getCategoryId()
+            ))
+            .orElseGet(() -> {
+                model.addAttribute("error", "Course not found");
+                return new NewCourseFormDTO();
+            });
         return sendToCourseForm(dto, id, model);
     }
 
@@ -95,7 +99,7 @@ public class CourseController {
         Model model,
         RedirectAttributes redirectAttributes) {
 
-        log.info("JSP request: persisting new course.");
+        log.info("JSP request: persisting course.");
         log.info(dto.toString());
 
         Consumer<String> addError = text -> model.addAttribute("error", text);
