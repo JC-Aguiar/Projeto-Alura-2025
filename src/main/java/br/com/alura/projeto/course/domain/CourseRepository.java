@@ -14,7 +14,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
                 c.category.id as categoryId
         from    Course c
         where   c.id = :id
-    """)
+        """)
     CourseAndCategoryId findCourseAndCategoryIdByCourseBy(Long id);
 
     @Query(nativeQuery = true, value = """
@@ -22,7 +22,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
         from    Course
         where   code = :code
         and     id != :id;
-    """)
+        """)
     int countUniqueCodePerId(String code, Long id);
 
 
@@ -32,7 +32,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
         set     status = 'INACTIVE',
                 inactivationDate = CURRENT_TIMESTAMP()
         where   code = :code
-    """)
+        """)
     int updateStatusByCode(String code);
 
 }
