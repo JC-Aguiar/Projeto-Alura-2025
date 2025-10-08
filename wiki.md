@@ -57,7 +57,7 @@ to edit a category (JSP)
 both creation and edition (JSP)
 - [X] Improve course's status to be able to activate and inactivate (also in the edition page)  
 - [X] Implement student registration logic in the [RegistrationController](src/main/java/br/com/alura/projeto/registration/RegistrationController.java)
-- [ ] Implement registration report logic in the [RegistrationController](src/main/java/br/com/alura/projeto/registration/RegistrationController.java)
+- [X] Implement registration report logic in the [RegistrationController](src/main/java/br/com/alura/projeto/registration/RegistrationController.java)
 - [X] Fix [login.jsp](src/main/webapp/WEB-INF/views/admin/course/list.jsp) responsiveness (JSP)
 - [ ] Change inactivation option in [login.jsp](src/main/webapp/WEB-INF/views/admin/course/list.jsp), from dropdown 
 to modal (JSP)

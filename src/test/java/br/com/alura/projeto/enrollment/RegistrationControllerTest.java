@@ -10,6 +10,7 @@ import br.com.alura.projeto.registration.domain.EnrollmentRepository;
 import br.com.alura.projeto.registration.domain.RegistrationService;
 import br.com.alura.projeto.user.User;
 import br.com.alura.projeto.user.UserRepository;
+import br.com.alura.projeto.util.ExampleMatcherUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import lombok.Data;
@@ -19,14 +20,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Example;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static br.com.alura.projeto.course.domain.CourseStatusType.ACTIVE;
+import static br.com.alura.projeto.util.ExampleMatcherUtil.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Data
 @Transactional
@@ -110,6 +113,92 @@ class RegistrationControllerTest {
             course.getId()
         );
         Assertions.assertTrue(isUserRegisteredInTheCourse);
+    }
+
+    @Test
+    void testCreateEnrollment__invalid_email_pattern__should_return_bad_request() throws Exception {
+        var dto = new NewRegistrationDTO(course.getCode(), "none");
+
+        mockMvc.perform(
+            post(URI_NEW_REGISTRATION)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+            .andExpectAll(
+                status().isBadRequest(),
+                content().contentType(MediaType.APPLICATION_JSON),
+                jsonPath("$").isArray(),
+                jsonPath("$[0].field").value("studentEmail"),
+                jsonPath("$[0].message").value("must be a well-formed email address")
+            );
+
+        var isUserRegisteredInTheCourse = enrollmentRepository.existsByUserIdAndCourseId(
+            user.getId(),
+            course.getId()
+        );
+        Assertions.assertFalse(isUserRegisteredInTheCourse);
+    }
+
+    @Test
+    void testCreateEnrollment__user_not_found__should_return_bad_request() throws Exception {
+        var dto = new NewRegistrationDTO(course.getCode(), "none@a.b.com");
+
+        mockMvc.perform(
+            post(URI_NEW_REGISTRATION)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+            .andExpectAll(
+                status().isBadRequest(),
+                content().contentType(MediaType.APPLICATION_JSON),
+                jsonPath("$.field").value("studentEmail"),
+                jsonPath("$.message").value("Email não encontrado")
+            );
+
+        var isUserRegisteredInTheCourse = enrollmentRepository.existsByUserIdAndCourseId(
+            user.getId(),
+            course.getId()
+        );
+        Assertions.assertFalse(isUserRegisteredInTheCourse);
+    }
+
+    @Test
+    void testCreateEnrollment__course_code_not_found__should_return_bad_request() throws Exception {
+        var dto = new NewRegistrationDTO("code-empty", user.getEmail());
+
+        mockMvc.perform(
+            post(URI_NEW_REGISTRATION)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+            .andExpectAll(
+                status().isBadRequest(),
+                content().contentType(MediaType.APPLICATION_JSON),
+                jsonPath("$.field").value("courseCode"),
+                jsonPath("$.message").value("Curso não encontrado")
+            );
+
+        var isUserRegisteredInTheCourse = enrollmentRepository.existsByUserIdAndCourseId(
+            user.getId(),
+            course.getId()
+        );
+        Assertions.assertFalse(isUserRegisteredInTheCourse);
+    }
+
+    @Test
+    void testCreateEnrollment__user_already_registered_in_the_course__should_return_bad_request()
+    throws Exception {
+        var dto = new NewRegistrationDTO(course.getCode(), user.getEmail());
+        var enrollment = new Enrollment(user, course);
+        enrollmentRepository.saveAndFlush(enrollment);
+
+        mockMvc.perform(
+            post(URI_NEW_REGISTRATION)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+            .andExpectAll(
+                status().isBadRequest(),
+                content().contentType(MediaType.APPLICATION_JSON),
+                jsonPath("$.field").value("courseCode"),
+                jsonPath("$.message").value("Aluno já matriculado para o curso")
+            );
     }
 
 }
