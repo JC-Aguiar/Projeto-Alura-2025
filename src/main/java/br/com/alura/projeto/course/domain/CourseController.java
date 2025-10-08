@@ -1,10 +1,7 @@
-package br.com.alura.projeto.course;
+package br.com.alura.projeto.course.domain;
 
 import br.com.alura.projeto.category.domain.CategoryRepository;
 import br.com.alura.projeto.category.dto.CategoryDTO;
-import br.com.alura.projeto.course.domain.CourseMapper;
-import br.com.alura.projeto.course.domain.CourseService;
-import br.com.alura.projeto.course.domain.CourseStatusType;
 import br.com.alura.projeto.course.dto.InactivateCourseDTO;
 import br.com.alura.projeto.course.dto.NewCourseFormDTO;
 import br.com.alura.projeto.course.dto.SearchCourseDTO;
