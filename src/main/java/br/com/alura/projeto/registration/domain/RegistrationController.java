@@ -1,7 +1,8 @@
-package br.com.alura.projeto.registration;
+package br.com.alura.projeto.registration.domain;
 
 import br.com.alura.projeto.exception.ServiceException;
-import br.com.alura.projeto.registration.domain.RegistrationService;
+import br.com.alura.projeto.registration.NewRegistrationDTO;
+import br.com.alura.projeto.registration.RegistrationReportItem;
 import br.com.alura.projeto.util.ErrorItemDTO;
 import jakarta.validation.Valid;
 import lombok.Data;
