@@ -44,7 +44,7 @@ public class Category {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ToString.Exclude
-    @JsonManagedReference
+    @JsonManagedReference("category-course")
     @OneToMany(fetch = LAZY, mappedBy = "category")
     private List<Course> courses = new ArrayList<>();
 
