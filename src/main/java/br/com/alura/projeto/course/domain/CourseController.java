@@ -78,16 +78,17 @@ public class CourseController {
     @GetMapping("/admin/course/edit/{id}")
     public String update(@PathVariable("id") Long id, Model model) {
         log.info("JSP request: editing course id {}.", id);
-        var dto = courseService.findCourseAndCategoryIdByCourseBy(id)
+        return courseService.findCourseAndCategoryIdByCourseBy(id)
             .map(info -> courseMapper.toFormDTO(
                 info.getCourse(),
                 info.getCategoryId()
             ))
+            .map(dto -> sendToCourseForm(dto, id, model))
             .orElseGet(() -> {
                 model.addAttribute("error", "Course not found");
-                return new NewCourseFormDTO();
+                var dto = new NewCourseFormDTO();
+                return sendToCourseForm(dto, null, model);
             });
-        return sendToCourseForm(dto, id, model);
     }
 
     @Transactional

@@ -3,6 +3,7 @@ package br.com.alura.projeto.category.domain;
 import br.com.alura.projeto.category.dto.CategoryDTO;
 import br.com.alura.projeto.category.dto.NewCategoryFormDTO;
 import br.com.alura.projeto.course.domain.Course;
+import br.com.alura.projeto.course.dto.NewCourseFormDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
 import lombok.NonNull;
@@ -53,14 +54,19 @@ public class CategoryController {
     @GetMapping("/admin/category/edit/{id}")
     public String update(@PathVariable("id") Long id, Model model) {
         log.info("JSP request: editing category id {}.", id);
-        var entity = categoryRepository.findById(id).orElseThrow();
-        var dto = new NewCategoryFormDTO(
-            entity.getName(),
-            entity.getCode(),
-            entity.getOrder(),
-            entity.getColor()
-        );
-        return sendToCourseForm(dto, id, model);
+        return categoryRepository.findById(id)
+            .map(entity -> new NewCategoryFormDTO(
+                entity.getName(),
+                entity.getCode(),
+                entity.getOrder(),
+                entity.getColor()
+            ))
+            .map(dto -> sendToCourseForm(dto, id, model))
+            .orElseGet(() -> {
+                model.addAttribute("error", "Course not found");
+                var dto = new NewCategoryFormDTO();
+                return sendToCourseForm(dto, null, model);
+            });
     }
 
     @Transactional
