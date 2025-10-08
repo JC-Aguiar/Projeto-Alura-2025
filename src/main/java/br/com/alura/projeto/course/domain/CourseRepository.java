@@ -1,6 +1,6 @@
 package br.com.alura.projeto.course.domain;
 
-import br.com.alura.projeto.course.dto.CourseAndCategoryId;
+import br.com.alura.projeto.course.projection.CourseAndCategoryId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
