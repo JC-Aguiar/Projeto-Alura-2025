@@ -39,7 +39,7 @@ I'm assuming its acceptable to add two or three more liberais to the application
 to list all course (JSP)
 - [X] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
 to create a new course (JSP)
-- [ ] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
+- [X] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
 to edit a course (JSP)
 - [X] Implement logic in [CourseController](src/main/java/br/com/alura/projeto/course/CourseController.java) 
 to inactivate a course (JSP)
@@ -95,4 +95,8 @@ to modal (JSP)
   - [ ] PUT: with valid path (data not found)
   - [ ] PUT: with invalid path (code patter)
 - [ ] Creating new courses should require they respective category
-- [ ] Request to initiative a course could receive a description field explaining the reason.
+- [ ] Request to initiative a course could receive a description field explaining the reason
+- [ ] Create a non-admin presentation page for each Category
+- [ ] Link each Category presentation in login page
+- [ ] Create a non-admin presentation page for each Course
+- [ ] Link each Course presentation in login page
