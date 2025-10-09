@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
@@ -44,37 +41,18 @@ public class RegistrationController {
     }
 
     @GetMapping("/report")
-    public ResponseEntity<List<RegistrationReportItem>> report() {
-        List<RegistrationReportItem> items = new ArrayList<>();
-
-        // TODO: Implementar a Questão 6 - Relatório de Cursos Mais Acessados aqui...
-
-        // Dados fictícios abaixo que devem ser substituídos
-        items.add(new RegistrationReportItem(
-            "Java para Iniciantes",
-            "java",
-            "Charles",
-            "charles@alura.com.br",
-            10L
-        ));
-
-        items.add(new RegistrationReportItem(
-            "Spring para Iniciantes",
-            "spring",
-            "Charles",
-            "charles@alura.com.br",
-            9L
-        ));
-
-        items.add(new RegistrationReportItem(
-            "Maven para Avançados",
-            "maven",
-            "Charles",
-            "charles@alura.com.br",
-            9L
-        ));
-
-        return ResponseEntity.ok(items);
+    public ResponseEntity report() {
+        try {
+            var dtos = registrationService.reportAllRegistrations()
+                .stream()
+                .map(RegistrationReportItem::new)
+                .toList();
+            return ResponseEntity.ok(dtos);
+        }
+        catch (Exception e) {
+            log.error(e.toString());
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(ErrorItemDTO.systemError());
+        }
     }
 
 }

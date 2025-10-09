@@ -32,6 +32,6 @@ public class ErrorItemDTO {
     }
 
     public static ErrorItemDTO systemError() {
-        return new ErrorItemDTO("system", "Erro inesperado no sistema");
+        return new ErrorItemDTO("error", "Erro inesperado no sistema");
     }
 }
