@@ -22,6 +22,18 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
+    /// Registra uma nova matrícula (inscrição) de um aluno em um curso.
+    ///
+    /// O corpo da requisição deve conter o e-mail do aluno e o código único (slug) do curso.
+    /// A validação do formato dos dados é feita pelo Bean Validation.
+    ///
+    /// @param dto Objeto contendo {@code studentEmail} e {@code courseCode} para registro. Deve ser válido.
+    /// @return {@link ResponseEntity} com o status da operação:
+    /// <ul>
+    /// <li>{@code 201 CREATED} em caso de sucesso na matrícula.</li>
+    /// <li>{@code 400 BAD_REQUEST} se o aluno/curso não for encontrado ou se o aluno já estiver matriculado ({@link ServiceException}).</li>
+    /// <li>{@code 500 INTERNAL_SERVER_ERROR} em caso de falha sistêmica inesperada.</li>
+    /// </ul>
     @PostMapping("/new")
     public ResponseEntity createCourse(@Valid @RequestBody NewRegistrationDTO dto) {
         try {
@@ -40,6 +52,15 @@ public class RegistrationController {
         }
     }
 
+    /// Retorna um relatório agregado de todas as matrículas ativas no sistema.
+    ///
+    /// O método delega ao serviço a coleta dos dados e mapeia o resultado para uma lista de DTOs de relatório.
+    ///
+    /// @return {@link ResponseEntity} contendo:
+    /// <ul>
+    /// <li>{@code 200 OK} com uma lista de objetos {@link RegistrationReportItem} em caso de sucesso.</li>
+    /// <li>{@code 500 INTERNAL_SERVER_ERROR} em caso de falha sistêmica na geração do relatório.</li>
+    /// </ul>
     @GetMapping("/report")
     public ResponseEntity report() {
         try {

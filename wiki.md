@@ -64,7 +64,7 @@ to modal (JSP)
 - [ ] Create custom checked-exceptions for each relevant business rule
 - [ ] Add javadoc in all methods
 - [ ] Encrypt also emails in users and courses
-- [ ] Translate all response messages to portuguese
+- [ ] Translate all response messages to portuguese? (README.md says that should be all in english)
 
 ### Extras
 - [ ] Create course controller Rest API
