@@ -10,7 +10,6 @@ import br.com.alura.projeto.registration.domain.EnrollmentRepository;
 import br.com.alura.projeto.registration.domain.RegistrationService;
 import br.com.alura.projeto.user.User;
 import br.com.alura.projeto.user.UserRepository;
-import br.com.alura.projeto.util.ExampleMatcherUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import lombok.Data;
@@ -20,15 +19,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Example;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 import static br.com.alura.projeto.course.domain.CourseStatusType.ACTIVE;
-import static br.com.alura.projeto.util.ExampleMatcherUtil.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Data
@@ -69,7 +69,7 @@ class RegistrationControllerTest {
     private Enrollment enrollment;
 
     private static final String URI_NEW_REGISTRATION = "/api/registration/new";
-
+    public static final String URI_REPORT_REGISTRATIONS = "/api/registration/report";
 
     @BeforeEach
     public void persistingMockRecords() {
@@ -199,6 +199,18 @@ class RegistrationControllerTest {
                 jsonPath("$.field").value("courseCode"),
                 jsonPath("$.message").value("Aluno já matriculado para o curso")
             );
+    }
+
+    @Test
+    void report__successful__returns_ok_with_reports() throws Exception {
+        // Act & Assert
+        mockMvc.perform(
+                get(URI_REPORT_REGISTRATIONS)
+                    .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
     }
 
 }
