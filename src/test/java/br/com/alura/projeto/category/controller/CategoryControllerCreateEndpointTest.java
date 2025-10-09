@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @WebMvcTest(CategoryController.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CategoryControllerListEndpointTest {
+class CategoryControllerCreateEndpointTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,13 +51,18 @@ class CategoryControllerListEndpointTest {
 
 
     @Test
-    void testCreate_shouldReturnEmptyForm() throws Exception {
+    void testCreate_should_return_with_empty_form() throws Exception {
         // Act & Assert
         mockMvc.perform(get(URI_CREATE_CATEGORY))
             .andExpect(status().isOk())
             .andExpect(view().name(URI_ADMIN_CATEGORY_FORM))
-            .andExpect(model().attributeExists("dto"))
-            .andExpect(model().attribute("dto", new NewCategoryFormDTO()));
+            .andExpect(model().attributeExists("newCategoryFormDTO"))
+            .andExpectAll(
+                model().attribute("newCategoryFormDTO", hasProperty("name", nullValue())),
+                model().attribute("newCategoryFormDTO", hasProperty("code", nullValue())),
+                model().attribute("newCategoryFormDTO", hasProperty("order", is(0))),
+                model().attribute("newCategoryFormDTO", hasProperty("color", nullValue()))
+            );
 
         verifyNoInteractions(categoryRepository);
     }
