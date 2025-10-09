@@ -1,12 +1,23 @@
 package br.com.alura.projeto.registration;
 
-public class RegistrationReportItem {
+import br.com.alura.projeto.registration.projection.RegistrationReportItemConcept;
+
+public class RegistrationReportItem implements RegistrationReportItemConcept {
 
     private final String courseName;
     private final String courseCode;
     private final String instructorName;
     private final String instructorEmail;
     private final Long totalRegistrations;
+
+
+    public RegistrationReportItem(RegistrationReportItemConcept ineterface) {
+        this.courseName = ineterface.getCourseName();
+        this.courseCode = ineterface.getCourseCode();
+        this.instructorName = ineterface.getInstructorName();
+        this.instructorEmail = ineterface.getInstructorEmail();
+        this.totalRegistrations = ineterface.getTotalRegistrations();
+    }
 
     public RegistrationReportItem(String courseName, String courseCode, String instructorName, String instructorEmail, Long totalRegistrations) {
         this.courseName = courseName;
